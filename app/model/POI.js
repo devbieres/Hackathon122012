@@ -13,9 +13,11 @@ Ext.define("LaCarteTouch.model.POI", {
          { name: 'telephone',        type: 'string' },
          { name: 'theme',            type: 'string' },
          { name: 'soustheme',        type: 'string' },
+         { name: 'type',             type: 'string' },
          { name: 'latitude',         type: 'decimal' },
          { name: 'longitude',        type: 'decimal' },
          { name: 'gestionnaire',     type: 'string' },
+         { name: 'description',     type: 'string' },
   
        ], // Fields            
     }, // fin de config        
