@@ -1,12 +1,9 @@
 Ext.define("LaCarteTouch.controller.Search", {
-   extend: "Ext.app.Controller",
+   extend: "LaCarteTouch.controller.Base",
 
    requires: [
        "Ext.data.JsonP" 
    ],
-
-   // Centralisation de la recherche du store local qui est mappé sur la liste:w
-   getPOIStore: function() { return Ext.getStore("POIS"); },
 
    // Configuration
    config: {
@@ -49,34 +46,37 @@ Ext.define("LaCarteTouch.controller.Search", {
       var distance = scope.getDistanceSelect().getValue();
       console.log('doSearch : ' + searchText + " -> " + distance);
 
+      var config = this.getConfig();
+      var lat = config.get('latitude');
+      var lng = config.get('longitude');
+
       // Récupération du store
       var store =  scope.getPOIStore();
+      
  
       // Nettoyage de la liste
       store.removeAll();
 
       // Calcul de l'url
-      var url = "http://localhost:9200/hack2012/_search?";
+      var url = "http://localhost:9200/hack2012/_search";
       if(searchText.length == 0) { searchText = "*"; }
-      //var param = '{ "from" : 0,"size" : 100, "query" : { "query_string" : {"query" : "' +searchText + '"}},"filter" : { "geo_distance" : { "distance" : "1000km", "pin" : { "lat": 47.365464, "lon" : -1.177491 } } } } '
+      var param = '{ "from" : 0,"size" : 100, "query" : { "query_string" : {"query" : "' +  searchText + '"}},"filter" : { "geo_distance" : { "distance" : "' +  distance + 'km", "pin" : { "lat": '+ lat  +', "lon" : ' + lng  +  ' } } } }';
+      console.log(param);
       //var param = "q=" + searchText;
       //url += param; 
       console.log(url);
 
       // Chargement d'un JSON
       //var obj ⁼ Ext.create("Ext.data.JsonP");
-      Ext.data.JsonP.request({
-         // Passage de l'url
+      Ext.Ajax.request({
          url: url,
-         // callbackkey
-         callbackKey: 'callback',
-         // params
-         params: {
-            from: 0, size:50, q: searchText
-         },
-         // end param
+         method: 'POST',
+         params:  param,
          success: function(result) {
-             var hits = result.hits.hits;
+            console.log(result.responseText);
+            var temp = Ext.JSON.decode(result.responseText);
+            console.log(temp);
+             var hits = temp.hits.hits;
              //console.log(result.hits.hits); 
              for(var i in hits) {
                  var record = hits[i]._source;
@@ -99,6 +99,7 @@ Ext.define("LaCarteTouch.controller.Search", {
                                 });
                 store.add(item);
              } // fin du each sur les hits
+             // */
          } // success
       }); // Fin de request
 
