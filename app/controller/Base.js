@@ -15,7 +15,7 @@ Ext.define("LaCarteTouch.controller.Base", {
           var cfgItem = Ext.create("LaCarteTouch.model.Config",
                             {
                                code : "lacarte-config",
-                               distance: 30,
+                               distance: 5,
                                latitude: 47.217316595885734,
                                longitude: -1.5465397033691520  
                             }

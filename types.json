@@ -1,0 +1,20 @@
+[
+    {
+        "code":"*",
+        "nom": "Tous",
+    },
+    {                          
+        "code":"theatre",
+        "nom":"Théatre",
+    },
+    {
+        "code":"cave",
+        "nom":"Cave",
+    },
+    {
+        "code":"restaurant",
+        "nom": "Restaurant"
+    }
+]
+  
+
