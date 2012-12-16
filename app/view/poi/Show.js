@@ -8,15 +8,15 @@ Ext.define("LaCarteTouch.view.poi.Show", {
    ],
 
    config: {
-      title: "",
-      layout: "vbox",
+      title: "Détail",
+      layout: "fit",
       record: null,
       items: [
                 {
-                    title:"Infos", xtype:"poiinfo", id:"poiinfo", flex:1
+                    title:"Infos", xtype:"poiinfo", id:"poiinfo", dock:'top' 
                 },
                 {
-                    title:"Carte", xtype:"map", id:"poimap", mapOptions: { zoom: 15 }, flex:2
+                    title:"Carte", xtype:"map", id:"poimap", mapOptions: { zoom: 15 }
                 }
       ], // items 
    }, // fin de config

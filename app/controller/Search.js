@@ -114,7 +114,8 @@ Ext.define("LaCarteTouch.controller.Search", {
                                   description : record.description,
                                   gestionnaire: record.gestionnaire,
                                   latitude: record.pin.lat,
-                                  longitude: record.pin.lon
+                                  longitude: record.pin.lon,
+                                  site: record.site,
                                 });
                            //console.log(item.get('nom'));
                            store.add(item);

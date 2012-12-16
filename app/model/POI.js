@@ -9,6 +9,7 @@ Ext.define("LaCarteTouch.model.POI", {
          { name: 'adresse',         type: 'string' },
          { name: 'codepostal',       type: 'string' },
          { name: 'ville',            type: 'string' },
+         { name: 'site',            type: 'string' },
          { name: 'mail',             type: 'string' },
          { name: 'telephone',        type: 'string' },
          { name: 'theme',            type: 'string' },

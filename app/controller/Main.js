@@ -75,6 +75,7 @@ Ext.define("LaCarteTouch.controller.Main", {
       // Creation d'un marker
       var latlngM = new google.maps.LatLng(record.get('latitude'), record.get('longitude'));
       var marker = new google.maps.Marker({
+             icon: './resources/images/' + record.get('type') + '.png',
              position: latlngM,
              map: map,
              title: record.get('nom')
