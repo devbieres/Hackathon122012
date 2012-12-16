@@ -15,6 +15,7 @@ Ext.define("LaCarteTouch.controller.Search", {
        control: {
          searchText: {
            keyup: "onSearch",
+           clearicontap: "onClear",
          },
          distanceSelect: {
            change: "onDistanceChange",
@@ -26,26 +27,26 @@ Ext.define("LaCarteTouch.controller.Search", {
    }, // config
 
    launch: function() {
-          //console.log("Launch !");
    },
 
    // onDistanceChange
    onTypeChange: function(scope, newValue, oldValue, eOpts) {
-         console.log('onTypeChange');
+         this.doSearch(this);
+   },
+
+   onClear: function(scope, e, eOpts) {
          this.doSearch(this);
    },
 
    // onDistanceChange
    onDistanceChange: function(scope, newValue, oldValue, eOpts) {
-         console.log('onDistanceChange');
          this.doSearch(this);
    }, // changement de distance
 
    // OnSearch
    onSearch: function(field, e) {
-      console.log('OnSearch');
       var searchText = this.getSearchText().getValue();
-      if((searchText.length > 3) && (e.event.keyCode == 13)) {
+      if(e.event.keyCode == 13) {
            this.doSearch(this);
       }
    }, // fin de OnSearch
@@ -55,7 +56,6 @@ Ext.define("LaCarteTouch.controller.Search", {
       var searchText = scope.getSearchText().getValue();
       var distance = scope.getDistanceSelect().getValue();
       var type = scope.getTypeSelect().getValue();
-      console.log('doSearch : ' + searchText + " -> " + distance + " / " + type);
 
       var config = this.getConfig();
       var lat = config.get('latitude');
@@ -74,26 +74,27 @@ Ext.define("LaCarteTouch.controller.Search", {
       else { searchText += "*"; }
       var param = '';
       if(type=="*") {
-         param =  '{ "from" : 0,"size" : 100, "query" : { "query_string" : {"query" : "' +  searchText + '"}},"filter" : { "geo_distance" : { "distance" : "' +  distance + 'km", "pin" : { "lat": '+ lat  +', "lon" : ' + lng  +  ' } } } }';
+         param =  '{ "from" : 0,"size" : 50, "query" : { "query_string" : {"query" : "' +  searchText + '"}},"filter" : { "geo_distance" : { "distance" : "' +  distance + 'km", "pin" : { "lat": '+ lat  +', "lon" : ' + lng  +  ' } } } }';
       } else {
         param = '{ "from" : 0, "size" : 100, "query" : { "query_string" : {"query" : "' + searchText +  '"} }, "filter" : { "and": [ { "term": { "type":"'+ type +'" } }, { "geo_distance" : { "distance" : "'+ distance  +'km", "pin" : { "lat": "' + lat  + '", "lon" : "' + lng +  '" } } } ] } }';
       }
 
-      console.log(param);
-      //var param = "q=" + searchText;
-      //url += param; 
-      //console.log(url);
-
       // Chargement d'un JSON
-      //var obj ⁼ Ext.create("Ext.data.JsonP");
       Ext.Ajax.request({
          url: url,
          method: 'POST',
          params:  param,
          success: function(result) {
-            var temp = Ext.JSON.decode(result.responseText);
-             var hits = temp.hits.hits;
-             //console.log(result.hits.hits); 
+              // -1- Recupération des infos distances
+              var config = Ext.getStore('Config').getAt(0);
+              var lat = config.get('latitude');
+              var lng = config.get('longitude');
+
+              // -2- Lecture
+              var temp = Ext.JSON.decode(result.responseText);
+              var hits = temp.hits.hits;
+ 
+              // -3- Boucle
              for(var i in hits) {
                  var record = hits[i]._source;
                  var now = new Date();
@@ -117,7 +118,14 @@ Ext.define("LaCarteTouch.controller.Search", {
                                   longitude: record.pin.lon,
                                   site: record.site,
                                 });
-                           //console.log(item.get('nom'));
+
+                           // Calcul de distance
+                           var dist = new Number(LaCarteTouch.util.UtilMap.distance(lat, lng, item.get('latitude'), item.get('longitude')));
+                           item.set('distance', dist);
+                           item.set('distanceFormat', dist.toFixed(1));
+                           var distClass = LaCarteTouch.util.UtilMap.categorie(dist);
+                           item.set('distanceClass', distClass);
+  
                            store.add(item);
                  } // fin if item
              } // fin du each sur les hits

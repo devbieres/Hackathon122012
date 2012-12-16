@@ -10,6 +10,7 @@ Ext.application({
 
     requires: [
         'Ext.MessageBox', 'Ext.field.Search', 'Ext.data.proxy.LocalStorage','Ext.tab.Panel',
+        'LaCarteTouch.util.UtilMap',
         'LaCarteTouch.view.Main',
     ],
 

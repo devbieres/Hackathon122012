@@ -35,12 +35,10 @@ Ext.define("LaCarteTouch.controller.Main", {
                     autoUpdate: false,
                     listeners: {
                        locationupdate: function(geo) { 
-                              //console.log(geo); 
                               var store = Ext.getStore("Config");
                               var cfg = store.getAt(0); 
                               cfg.set('latitude', geo.getLatitude());
                               cfg.set('longitude', geo.getLongitude());
-                              //console.log(cfg);
                               store.sync();
                        },
                      } // listeners
@@ -57,7 +55,6 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Tap sur la liste d'une recherche
    onSearchTap: function(list, index, node, record) {
-      //console.log(record);
 
       // Poi Show ?
       if(! this.poiShow) { this.poiShow = Ext.create("LaCarteTouch.view.poi.Show");  }
@@ -68,14 +65,12 @@ Ext.define("LaCarteTouch.controller.Main", {
 
       // Gestion de la carte
       var map = this.getPoiMap().getMap(); //console.log(map);
-      console.log(record.get('latitude'));
-      console.log(record.get('longitude'));
       this.getPoiMap().setMapCenter( { latitude: record.get('latitude'), longitude: record.get('longitude')  } );
 
       // Creation d'un marker
       var latlngM = new google.maps.LatLng(record.get('latitude'), record.get('longitude'));
       var marker = new google.maps.Marker({
-             icon: './resources/images/' + record.get('type') + '.png',
+             icon: './resources/images/' + record.get('type') + record.get('distanceClass')  + '.png',
              position: latlngM,
              map: map,
              title: record.get('nom')
