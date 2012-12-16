@@ -10,6 +10,26 @@ Ext.define('LaCarteTouch.view.Main', {
 
         items: [
             {
+               xtype:'toolbar',
+               ui: 'light',
+               docked:'bottom',
+               items: [
+                   { xtype : 'spacer', },
+                   {
+                     xtype:'selectfield',
+                     id:'distanceSelect',
+                     name:'options',
+                     options: [
+                             { text: '5 km', value:'5' },
+                             { text: '15 km', value:'15' },
+                             { text: '30 km', value:'30' },
+                             { text: '50 km', value:'50' },
+                     ],
+                   },
+                  { xtype : 'spacer', },
+              ], // items
+            },
+            {
                xtype:'searchfield',
                name:'search',
                id:'search',

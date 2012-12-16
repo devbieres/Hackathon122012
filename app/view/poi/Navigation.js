@@ -9,7 +9,7 @@ Ext.define("LaCarteTouch.view.poi.Navigation", {
 
    config: {
       autoDestroy: false,
-      navigationBar: { hidden: true  },
+      navigationBar: { hidden: false  },
       //navigationBar: {
           //items: [
           //   {

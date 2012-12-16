@@ -8,7 +8,9 @@ Ext.define("LaCarteTouch.controller.Main", {
          poiList:"poilist",
          poiShow:"poishow",
          poiInfo:"poiinfo",
-         poiMap:"#poimap"
+         poiMap:"#poimap",
+         marker:"",
+         distanceSelect: "#distanceSelect",
       },
       control: {
          poiList: {
@@ -54,6 +56,7 @@ Ext.define("LaCarteTouch.controller.Main", {
    launch: function() {
          // Gestion d'un premier accès à la config
          var config = this.getConfig();
+         this.getDistanceSelect().setValue(config.get('distance'));
 
          // Gestion de la localisation
          var geo = Ext.create("Ext.util.Geolocation", 
@@ -71,6 +74,8 @@ Ext.define("LaCarteTouch.controller.Main", {
                        },
                      } // listeners
                  }); // geo
+      
+         
    },
 
    // Activation de la carte
@@ -95,6 +100,16 @@ Ext.define("LaCarteTouch.controller.Main", {
       console.log(record.get('latitude'));
       console.log(record.get('longitude'));
       this.getPoiMap().setMapCenter( { latitude: record.get('latitude'), longitude: record.get('longitude')  } );
+
+      // Creation d'un marker
+      var latlngM = new google.maps.LatLng(record.get('latitude'), record.get('longitude'));
+      var marker = new google.maps.Marker({
+             position: latlngM,
+             map: map,
+             title: record.get('nom')
+        });
+      if(typeof this.marker != 'undefined') { this.marker.setMap(null); }
+      this.marker = marker;
 
       // Affichage de la liste
       this.getNav().push(this.getPoiShow());

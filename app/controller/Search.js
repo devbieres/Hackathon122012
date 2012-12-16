@@ -12,11 +12,15 @@ Ext.define("LaCarteTouch.controller.Search", {
    config: {
        refs: {
          searchText: "#search",
+         distanceSelect: "#distanceSelect",
        }, // fin des refs
        control: {
          searchText: {
            keyup: "onSearch",
-         }
+         },
+         distanceSelect: {
+           change: "onDistanceChange",
+         },
        }
    }, // config
 
@@ -24,18 +28,26 @@ Ext.define("LaCarteTouch.controller.Search", {
           //console.log("Launch !");
    },
 
+   // onDistanceChange
+   onDistanceChange: function(scope, newValue, oldValue, eOpts) {
+         console.log('onDistanceChange');
+         this.doSearch(this);
+   }, // changement de distance
+
    // OnSearch
    onSearch: function(field, e) {
       console.log('OnSearch');
       var searchText = this.getSearchText().getValue();
       if((searchText.length > 3) && (e.event.keyCode == 13)) {
-           this.doSearch(this, searchText);
+           this.doSearch(this);
       }
    }, // fin de OnSearch
 
    // Effectue la recherche
-   doSearch: function(scope, searchText) {
-      console.log('doSearch : ' + searchText);
+   doSearch: function(scope) {
+      var searchText = scope.getSearchText().getValue();
+      var distance = scope.getDistanceSelect().getValue();
+      console.log('doSearch : ' + searchText + " -> " + distance);
 
       // Récupération du store
       var store =  scope.getPOIStore();
@@ -44,7 +56,8 @@ Ext.define("LaCarteTouch.controller.Search", {
       store.removeAll();
 
       // Calcul de l'url
-      var url = 'http://localhost:9200/hack2012/_search?q='+ searchText + '&pretty=true';
+      var url = "http://localhost:9200/hack2012/_search";
+      if(searchText.length > 0) { url += "?q=" + searchText; }
       console.log(url);
 
       // Chargement d'un JSON
