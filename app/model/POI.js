@@ -19,6 +19,9 @@ Ext.define("LaCarteTouch.model.POI", {
          { name: 'longitude',        type: 'decimal' },
          { name: 'gestionnaire',     type: 'string' },
          { name: 'description',     type: 'string' },
+         { name: 'distance',        type: 'decimal' },
+         { name: 'distanceFormat',        type: 'string' },
+         { name: 'distanceClass',     type:'string'},
   
        ], // Fields            
     }, // fin de config        

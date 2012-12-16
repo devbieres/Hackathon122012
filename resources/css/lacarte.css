@@ -15,6 +15,11 @@ img {
    margin-left: 50px;
 }
 
+.poi-item .info .distance {
+    font-weight:normal;
+    font-style: italic;
+}
+
 .poi-item .info .title { font-weight:bold; }
 
 #distanceSelect {

@@ -13,7 +13,7 @@ Ext.define("LaCarteTouch.view.poi.Show", {
       record: null,
       items: [
                 {
-                    title:"Infos", xtype:"poiinfo", id:"poiinfo", dock:'top' 
+                    title:"Infos", xtype:"poiinfo", id:"poiinfo", docked:'top' 
                 },
                 {
                     title:"Carte", xtype:"map", id:"poimap", mapOptions: { zoom: 15 }

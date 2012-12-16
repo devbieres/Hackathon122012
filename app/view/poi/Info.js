@@ -12,6 +12,7 @@ Ext.define("LaCarteTouch.view.poi.Info", {
               "  </div>",
               "  <div class='contact' >",
               "    <ul>",
+              "      <li class='distance' > <img src='./resources/images/distance.png' > {distanceFormat} km </li>",
               "      {[ this.site(values.site) ]} ",
               "      {[ this.mail(values.mail) ]} ",
               "      {[ this.tel(values.telephone) ]} ",
@@ -20,7 +21,7 @@ Ext.define("LaCarteTouch.view.poi.Info", {
               "  {[ this.description(values.description) ]}",
               {
                    description: function(description) {
-                       if(description.length > 0) {
+                       if(description.trim().length > 0) {
                            return "<div class='description' > <h3> Description </h3> <p> " + description + "</p></div>";
                        }
                    }, // fin de description

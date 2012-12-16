@@ -5,7 +5,7 @@ Ext.define("LaCarteTouch.store.POIS", {
            proxy: {            
                 type:'memory', 
            }, // proxy         
-           sorters: [ { property: 'Nom', direction: 'DESC' } ],
+           sorters: [ { property: 'distance', direction: 'ASC' } ],
            grouper: function(record) { return record.get('type'); }  
      }, // config              
 }); // fin

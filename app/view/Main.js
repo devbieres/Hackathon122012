@@ -2,7 +2,7 @@ Ext.define('LaCarteTouch.view.Main', {
     extend: 'Ext.Panel',
     xtype: 'main',
     requires: [
-        'Ext.TitleBar',
+        'Ext.TitleBar', 'Ext.field.Select',
     ],
     config: {
         title:"",
