@@ -27,6 +27,7 @@ Ext.define('LaCarteTouch.view.Main', {
                      xtype:'selectfield',
                      id:'distanceSelect',
                      name:'options',
+                     value:'50',
                      options: [
                              { text: '1 km', value:'1' },
                              { text: '5 km', value:'5' },

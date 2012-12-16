@@ -60,6 +60,7 @@ Ext.define("LaCarteTouch.controller.Search", {
       var config = this.getConfig();
       var lat = config.get('latitude');
       var lng = config.get('longitude');
+      console.log('doSearch (1) :' + config.get('latitude') + ' - ' +  config.get('longitude'))
 
       // Récupération du store
       var store =  scope.getPOIStore();
@@ -89,6 +90,7 @@ Ext.define("LaCarteTouch.controller.Search", {
               var config = Ext.getStore('Config').getAt(0);
               var lat = config.get('latitude');
               var lng = config.get('longitude');
+              console.log('Ajax Search :' + config.get('latitude') + ' - ' +  config.get('longitude'))
 
               // -2- Lecture
               var temp = Ext.JSON.decode(result.responseText);

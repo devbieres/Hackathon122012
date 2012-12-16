@@ -9,7 +9,7 @@ Ext.application({
     name: 'LaCarteTouch',
 
     requires: [
-        'Ext.MessageBox', 'Ext.field.Search', 'Ext.data.proxy.LocalStorage','Ext.tab.Panel',
+        'Ext.MessageBox', 'Ext.field.Search', 'Ext.data.proxy.LocalStorage','Ext.tab.Panel', 'Ext.device.Geolocation',
         'LaCarteTouch.util.UtilMap',
         'LaCarteTouch.view.Main',
     ],
