@@ -9,7 +9,7 @@ Ext.define("LaCarteTouch.view.poi.List", {
      emptyText: "<pre><div class='list-empty' > Désolé ... rien pour le moment </div></pre>",
      itemTpl: [                
                 "<div id='{id}' class='poi-item' >",
-                  " <img src='./resources/images/{type}{distanceClass}.png' /> ",
+                  " <img src='./resources/images/{type}/{distanceClass}.png' /> ",
                   " <div class='info' >",         
                   "   <div class='title' > {nom} </div>",
                   "   <div class='distance' >A environ : {distanceFormat} km</div>",

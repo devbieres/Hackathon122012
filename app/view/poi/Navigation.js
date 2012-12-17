@@ -4,7 +4,7 @@ Ext.define("LaCarteTouch.view.poi.Navigation", {
 
   requires: [
        "LaCarteTouch.view.poi.List",
-       "LaCarteTouch.view.poi.Show",
+       "LaCarteTouch.view.poi.Show"
   ],
 
    config: {

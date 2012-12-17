@@ -27,7 +27,7 @@ Ext.define("LaCarteTouch.controller.Main", {
    launch: function() {
          // Gestion d'un premier accès à la config
          var config = this.getConfig();
-         //this.getDistanceSelect().setValue(config.get('distance'));
+         this.getDistanceSelect().setValue(config.get('distance'));
 
          // Gestion de la localisation
          var geo = Ext.create("Ext.util.Geolocation", 
@@ -55,7 +55,9 @@ Ext.define("LaCarteTouch.controller.Main", {
                         console.log(' Device : ' + c.latitude + ' ' + c.longitude);
                  }
           });
+
           
+         this.getDistanceSelect().setValue(config.get('distance'));
          
    },
 
@@ -83,7 +85,7 @@ Ext.define("LaCarteTouch.controller.Main", {
       // Creation d'un marker
       var latlngM = new google.maps.LatLng(record.get('latitude'), record.get('longitude'));
       var marker = new google.maps.Marker({
-             icon: './resources/images/' + record.get('type') + record.get('distanceClass')  + '.png',
+             icon: './resources/images/' + record.get('type') + '/' + record.get('distanceClass')  + '.png',
              position: latlngM,
              map: map,
              title: record.get('nom')

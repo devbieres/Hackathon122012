@@ -31,15 +31,18 @@ Ext.define("LaCarteTouch.controller.Search", {
 
    // onDistanceChange
    onTypeChange: function(scope, newValue, oldValue, eOpts) {
+         console.log('OnTypeChange');
          this.doSearch(this);
    },
 
    onClear: function(scope, e, eOpts) {
+         console.log('OnClear');
          this.doSearch(this);
    },
 
    // onDistanceChange
    onDistanceChange: function(scope, newValue, oldValue, eOpts) {
+         console.log('OnDistanceChange');
          this.doSearch(this);
    }, // changement de distance
 
@@ -53,9 +56,14 @@ Ext.define("LaCarteTouch.controller.Search", {
 
    // Effectue la recherche
    doSearch: function(scope) {
+      console.log('DoSearch');
       var searchText = scope.getSearchText().getValue();
+      if(typeof searchText == 'undefined') { searchText = ""; }
       var distance = scope.getDistanceSelect().getValue();
+      if(typeof distance == 'undefined') { distance = "1"; }
       var type = scope.getTypeSelect().getValue();
+      if((typeof type == 'undefined')  || (type == null)){ type = "*"; }
+      console.log('doSearch (1) :' + searchText + ' - ' +  distance + ' - ' + type)
 
       var config = this.getConfig();
       var lat = config.get('latitude');
@@ -70,7 +78,8 @@ Ext.define("LaCarteTouch.controller.Search", {
       store.removeAll();
 
       // Calcul de l'url
-      var url = "http://localhost:9200/hack2012/_search";
+      //var url = "http://localhost:9200/hack2012/_search";
+      var url = "http://hack2012.logisima.com/hack2012/_search";
       if(searchText.length == 0) { searchText = "*"; }
       else { searchText += "*"; }
       var param = '';
