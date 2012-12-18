@@ -33,8 +33,8 @@ Ext.application({
         '1496x2048': 'resources/startup/1496x2048.png'
     },
 
-    models: ["POI","Config", "Type"],
-    stores: ["POIS", "Config", "Type"],
+    models: ["POI","Config", "Type", "Theme"],
+    stores: ["POIS", "Config", "Type", "Theme"],
     controllers: ["Main", "Search"],
     views: [
           "poi.Navigation",

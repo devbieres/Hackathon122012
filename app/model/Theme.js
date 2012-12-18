@@ -1,12 +1,11 @@
-Ext.define("LaCarteTouch.model.Type", {
+Ext.define("LaCarteTouch.model.Theme", {
     extend: "Ext.data.Model",
 
     config: {
       idProperty: 'code',
       fields: [
         { name: 'code',     type: 'string' },
-        { name: 'nom',      type: 'string' },
-        { name: 'theme',    type: 'string' }
+        { name: 'nom',      type: 'string' }
       ]
     } // config
 });

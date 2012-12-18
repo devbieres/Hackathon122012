@@ -1,54 +1,21 @@
 Ext.define('LaCarteTouch.view.Main', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.TabPanel',
     xtype: 'main',
-    requires: [
-        'Ext.TitleBar', 'Ext.field.Select',
-    ],
-    config: {
-        title:"",
-        layout:"fit",
 
+    requires: [
+        "LaCarteTouch.view.form.Search", "LaCarteTouch.view.list.SearchResult"
+    ],
+
+    config: {
+        tabBar: { docked: 'bottom'},
+        fullscreen: true,
         items: [
-            {
-               xtype:'toolbar',
-               ui: 'light',
-               docked:'bottom',
-               items: [
-                   { xtype : 'spacer', },
-                   {
-                      xtype: 'selectfield',
-                      id:'typeSelect',
-                      name:'typeSelect',
-                      store: 'Type',
-                      displayField: 'nom',
-                      valueField: 'code',
-                   },
-                   {
-                     xtype:'selectfield',
-                     id:'distanceSelect',
-                     name:'options',
-                     value:'50',
-                     options: [
-                             { text: '1 km', value:'1' },
-                             { text: '5 km', value:'5' },
-                             { text: '15 km', value:'15' },
-                             { text: '30 km', value:'30' },
-                             { text: '50 km', value:'50' },
-                     ],
-                   },
-                  { xtype : 'spacer', },
-              ], // items
-            },
-            {
-               xtype:'searchfield',
-               name:'search',
-               id:'search',
-               placeHolder: 'Piscine, Musée, ...',
-               docked:'bottom'
-            }, 
-            {
-               xtype:'poinavigation',
-            }
-        ] // items
+           {
+              xtype:'searchform',
+           },
+           {
+             xtype:'searchresult'
+           }
+        ],
     }
 });

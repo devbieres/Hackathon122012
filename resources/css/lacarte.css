@@ -2,6 +2,8 @@ img {
   vertical-align: middle;      
 } 
 
+.x-field.x-field-labeled .x-form-label, .x-form-label: { text-align:center; }
+
 .poi-item {
    font-size: 0.8em;
 }

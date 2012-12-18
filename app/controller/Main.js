@@ -27,7 +27,7 @@ Ext.define("LaCarteTouch.controller.Main", {
    launch: function() {
          // Gestion d'un premier accès à la config
          var config = this.getConfig();
-         this.getDistanceSelect().setValue(config.get('distance'));
+         //this.getDistanceSelect().setValue(config.get('distance'));
 
          // Gestion de la localisation
          var geo = Ext.create("Ext.util.Geolocation", 
@@ -57,7 +57,7 @@ Ext.define("LaCarteTouch.controller.Main", {
           });
 
           
-         this.getDistanceSelect().setValue(config.get('distance'));
+         //this.getDistanceSelect().setValue(config.get('distance'));
          
    },
 

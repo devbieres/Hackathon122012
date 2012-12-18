@@ -2,92 +2,84 @@ Ext.define("LaCarteTouch.controller.Search", {
    extend: "LaCarteTouch.controller.Base",
 
    requires: [
-       "Ext.data.JsonP" 
+       "Ext.data.JsonP", "Ext.form.Panel", "Ext.field.Select", "Ext.field.Slider"
    ],
 
    // Configuration
    config: {
        refs: {
-         searchText: "#search",
-         distanceSelect: "#distanceSelect",
-         typeSelect: "#typeSelect",
+         //typeSelect: "#typeSelect",
+         formThemeSelect: "#formThemeSelect",
+         formTypeSelect:  "#formTypeSelect",
+         formDistance:    "#formDistance",
+         formCombien:     "#formCombien",
+         formQuery:       "#formQuery",
+         btnSearch:       "#btnSearch"
        }, // fin des refs
        control: {
-         searchText: {
-           keyup: "onSearch",
-           clearicontap: "onClear",
-         },
-         distanceSelect: {
-           change: "onDistanceChange",
-         },
-         typeSelect: {
-           change: "onTypeChange",
-         }
+          formThemeSelect: {
+              change: 'onFormThemeSelect'
+          },
+          btnSearch:  {
+              tap: 'onBtnSearchTap'
+          }
        }
    }, // config
 
    launch: function() {
    },
 
-   // onDistanceChange
-   onTypeChange: function(scope, newValue, oldValue, eOpts) {
-         console.log('OnTypeChange');
+   // onThemeChange
+   onFormThemeSelect: function(scope, newValue, oldValue, eOpts) {
+         console.log('OnThemeChange');
+         // Application d'un filtre sur le store des types
+         var store = this.getTypeStore();
+         store.clearFilter(true);
+         store.filter(function(type) { return type.get('theme') == newValue; });
+   },
+
+   onBtnSearchTap: function() {
+         console.log('OnBtnSeachTap');
          this.doSearch(this);
    },
 
-   onClear: function(scope, e, eOpts) {
-         console.log('OnClear');
-         this.doSearch(this);
-   },
 
-   // onDistanceChange
-   onDistanceChange: function(scope, newValue, oldValue, eOpts) {
-         console.log('OnDistanceChange');
-         this.doSearch(this);
-   }, // changement de distance
 
-   // OnSearch
-   onSearch: function(field, e) {
-      var searchText = this.getSearchText().getValue();
-      if(e.event.keyCode == 13) {
-           this.doSearch(this);
-      }
-   }, // fin de OnSearch
 
    // Effectue la recherche
    doSearch: function(scope) {
       console.log('DoSearch');
-      var searchText = scope.getSearchText().getValue();
-      if(typeof searchText == 'undefined') { searchText = ""; }
-      var distance = scope.getDistanceSelect().getValue();
-      if(typeof distance == 'undefined') { distance = "1"; }
-      var type = scope.getTypeSelect().getValue();
-      if((typeof type == 'undefined')  || (type == null)){ type = "*"; }
-      console.log('doSearch (1) :' + searchText + ' - ' +  distance + ' - ' + type)
 
+      // -1- Récupération des différentes variables de recherche
+      // --> IHM
+      var theme = this.getFormThemeSelect().getValue();
+      console.log("Theme : " + theme);
+      var type = this.getFormTypeSelect().getValue();
+      console.log("Type : " + type);
+      var distance = this.getFormDistance().getValue();
+      console.log("distance : " + distance);
+      var combien = this.getFormCombien().getValue();
+      console.log("Combien : " + combien);
+      var motscles = this.getFormQuery().getValue();
+      if(motscles.length <= 0) { motscles = "*"; }
+      console.log("Mots clés : " + motscles);
+
+      // --> Config
       var config = this.getConfig();
       var lat = config.get('latitude');
       var lng = config.get('longitude');
       console.log('doSearch (1) :' + config.get('latitude') + ' - ' +  config.get('longitude'))
 
-      // Récupération du store
+      // -2- Génération de la requête
+      var param = '{ "from" : 0, "size" : ' + combien +', "query" :  { "query_string" : {"query" : "' + motscles + '" } }, "filter" : {  "and" : [ {  "geo_distance" : { "distance" : "' + distance + '", "pin" : { "lat":' + lat +', "lon":' + lng +' } } }, { "term" : {  "theme": "' + theme + '" } }, { "term" : {  "type": "' + type + '" } } ]  }, "sort" : [ { "_geo_distance" : { "pin" : { "lat": ' + lat + ', "lon" : ' + lng + '  }, "order" : "asc", "unit" : "km" } } ] }';
+      console.log(param);
+
+      // -3- Récupération du store
       var store =  scope.getPOIStore();
-      
- 
-      // Nettoyage de la liste
       store.removeAll();
 
-      // Calcul de l'url
-      //var url = "http://localhost:9200/hack2012/_search";
+      // -4- Calcul de l'url
       var url = "http://hack2012.logisima.com/hack2012/_search";
-      if(searchText.length == 0) { searchText = "*"; }
-      else { searchText += "*"; }
-      var param = '';
-      if(type=="*") {
-         param =  '{ "from" : 0,"size" : 50, "query" : { "query_string" : {"query" : "' +  searchText + '"}},"filter" : { "geo_distance" : { "distance" : "' +  distance + 'km", "pin" : { "lat": '+ lat  +', "lon" : ' + lng  +  ' } } } }';
-      } else {
-        param = '{ "from" : 0, "size" : 100, "query" : { "query_string" : {"query" : "' + searchText +  '"} }, "filter" : { "and": [ { "term": { "type":"'+ type +'" } }, { "geo_distance" : { "distance" : "'+ distance  +'km", "pin" : { "lat": "' + lat  + '", "lon" : "' + lng +  '" } } } ] } }';
-      }
 
       // Chargement d'un JSON
       Ext.Ajax.request({
@@ -138,11 +130,12 @@ Ext.define("LaCarteTouch.controller.Search", {
                            item.set('distanceClass', distClass);
   
                            store.add(item);
+                           console.log(item.get('nom'));
                  } // fin if item
              } // fin du each sur les hits
-             // */
          } // success
       }); // Fin de request
+      //*/
 
 
    } // Fin de l'action de recherche
