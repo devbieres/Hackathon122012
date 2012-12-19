@@ -35,7 +35,7 @@ Ext.application({
 
     models: ["POI","Config", "Type", "Theme"],
     stores: ["POIS", "Config", "Type", "Theme"],
-    controllers: ["Main", "Search"],
+    controllers: ["Main", "Search", "Map"],
     views: [
           "poi.Navigation",
        ],

@@ -23,23 +23,26 @@ Ext.define("LaCarteTouch.controller.Main", {
          poiList: {
             itemtap: "onSearchTap"
          },
-         poiMap: {
-            activate: "onMapActivate",
-            //deactivate: "onMapDeactivate",
-         },
          mapButton: { tap: "onMapButtonTap"  },
          infoButton: { tap: "onInfoButtonTap" }
       }
    }, // fin de config
 
    // Gestion d'un push
-   onNavPush : function() {
-       this.getMapButton().show();
-        this.getInfoButton().hide();
+   onNavPush : function(view, item) {
+       console.log('PUSH : ' +  item.getActiveItem().xtype);
+       if(item.getActiveItem().xtype == 'map') {
+          this.getMapButton().show();
+          this.getInfoButton().hide();
+       } else {
+          this.getMapButton().hide();
+          this.getInfoButton().show();
+       }
    }, // fin de la gestion du push
 
    // Gestion du pop
-   onNavPop : function() {
+   onNavPop : function(view, item) {
+       console.log('POP : ' + item.xtype);
        this.getMapButton().hide();
        this.getInfoButton().hide();
    }, // fin de la gestion du pop
@@ -61,56 +64,6 @@ Ext.define("LaCarteTouch.controller.Main", {
         this.getInfoButton().hide();
    },
 
-   // lauch !
-   launch: function() {
-         // Gestion d'un premier accès à la config
-         var config = this.getConfig();
-         //this.getDistanceSelect().setValue(config.get('distance'));
-
-         // Gestion de la localisation
-         var geo = Ext.create("Ext.util.Geolocation", 
-                 {
-                    autoUpdate: false,
-                    listeners: {
-                       locationupdate: function(geo) { 
-                              var store = Ext.getStore("Config");
-                              var cfg = store.getAt(0); 
-                              cfg.set('latitude', geo.getLatitude());
-                              cfg.set('longitude', geo.getLongitude());
-                              console.log('location update :' + cfg.get('latitude') + ' - ' +  cfg.get('longitude'))
-                              store.sync();
-                       },
-                     } // listeners
-                 }); // geo
-          geo.updateLocation(); 
-
-          // Via le device
-          console.log(Ext.feature.has.Geolocation);
-          
-          Ext.device.Geolocation.getCurrentPosition({
-                 success: function(position) {
-                        var c = position.coords;
-                        console.log(' Device : ' + c.latitude + ' ' + c.longitude);
-                        var store = Ext.getStore("Config");
-                        var cfg = store.getAt(0); 
-                        cfg.set('latitude', c.latitude);
-                        cfg.set('longitude', c.longitude);
-                        console.log('location update :' + cfg.get('latitude') + ' - ' +  cfg.get('longitude'))
-                        store.sync();
-                 }
-          });
-
-          
-         //this.getDistanceSelect().setValue(config.get('distance'));
-         
-   },
-
-   // Activation de la carte
-   onMapActivate: function() {
-        //var cfg = this.getConfig();
-        //console.log('onMapActivate :' + cfg.get('latitude') + ' - ' +  cfg.set('longitude'))
-        //this.getPoiMap().setMapCenter( { latitude: cfg.get('latitude'), longitude: cfg.get('longitude') } );
-   }, // Activation de la carte
 
    // Tap sur la liste d'une recherche
    onSearchTap: function(list, index, node, record) {

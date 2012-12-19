@@ -4,8 +4,9 @@ Ext.define('LaCarteTouch.view.Main', {
     id:'main',
 
     requires: [
-        "LaCarteTouch.view.form.Search", "LaCarteTouch.view.list.SearchResult"
-    ],
+        "LaCarteTouch.view.form.Search", "LaCarteTouch.view.list.SearchResult",
+        "LaCarteTouch.view.map.Map",
+    ], 
 
     config: {
         tabBar: { docked: 'bottom'},
@@ -16,7 +17,10 @@ Ext.define('LaCarteTouch.view.Main', {
            },
            {
              xtype:'searchresult', id:'searchresult'
-           }
-        ],
-    }
+           },
+           {
+              xtype:'mappanel' 
+           },
+        ] // items
+    } // config
 });

@@ -3,7 +3,7 @@ Ext.define("LaCarteTouch.view.poi.List", {
    xtype: "poilist",
 
    config: {                   
-     title: "La Liste",           
+     title: "Vous trouvez ? :)",           
      store: "POIS",           
      loadingText: "Chargement ...",  
      emptyText: "<pre><div class='list-empty' > Désolé ... rien pour le moment </div></pre>",

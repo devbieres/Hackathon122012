@@ -3,9 +3,10 @@ Ext.define("LaCarteTouch.view.list.SearchResult", {
    xtype: "searchresult",
 
   requires: [
+       "Ext.data.JsonP", "Ext.form.Panel", "Ext.field.Select", "Ext.field.Slider",
        "LaCarteTouch.view.poi.List",
        "LaCarteTouch.view.poi.Show"
-  ],
+   ],
 
    config: {
       title: 'Liste',

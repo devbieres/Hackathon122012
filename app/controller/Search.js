@@ -1,9 +1,6 @@
 Ext.define("LaCarteTouch.controller.Search", {
    extend: "LaCarteTouch.controller.Base",
 
-   requires: [
-       "Ext.data.JsonP", "Ext.form.Panel", "Ext.field.Select", "Ext.field.Slider"
-   ],
 
    // Configuration
    config: {
@@ -135,6 +132,10 @@ Ext.define("LaCarteTouch.controller.Search", {
                            item.set('distanceFormat', dist.toFixed(1));
                            var distClass = LaCarteTouch.util.UtilMap.categorie(dist);
                            item.set('distanceClass', distClass);
+
+                           // Gestion des urls data.substring(0, input.length) === input
+                           
+                           if(item.get('site').substring(0,4) != 'http') { item.set('site', 'http://' + item.get('site')); }
   
                            store.add(item);
                  } // fin if item
