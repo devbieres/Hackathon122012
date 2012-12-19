@@ -1,8 +1,13 @@
 Ext.define("LaCarteTouch.view.poi.Info", {
-    extend: "Ext.Component",
+    extend: "Ext.Panel",
     xtype: "poiinfo",
 
     config: {
+       fullscreen: true,
+       scrollable : {
+           direction: 'vertical',
+           directionLock: 'true'
+       },
        tpl: Ext.create('Ext.XTemplate',
               "<div class='poi-info' >",
               "  <h2> {nom} </h2>",

@@ -1,0 +1,39 @@
+{
+   "from" : 0, 
+   "size" : ' + combien +',
+   "query" : 
+    {    
+        "query_string" : {"query" : "' + motscles + '" } },
+        "filter" : 
+        { 
+			"and" : [
+		      {        
+					"geo_distance" : 
+					{                
+						"distance" : "' + distance + '",                
+						"pin" : 
+						{
+							"lat":' + lat +',                    
+							"lon":' + lng +'
+						}        
+					}         
+			  },
+			  {
+					"term" : {  "theme": "' + theme + '" }
+			  },
+		      {
+					"term" : {  "type": "' + type + '" }
+			  }
+		   ]
+	    },
+   "sort" : [
+        {
+             "_geo_distance" : 
+             {                
+                   "pin" : { "lat": ' + lat + ', "lon" : ' + lng + '  }, 
+			       "order" : "asc",
+                   "unit" : "km"            
+             }
+        }
+   ]
+}

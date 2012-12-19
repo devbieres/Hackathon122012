@@ -4,15 +4,22 @@ Ext.define("LaCarteTouch.controller.Main", {
    // config
    config: {
       refs: { 
-         nav: "poinavigation",
+         main: "main",
+         nav: "searchresult",
          poiList:"poilist",
          poiShow:"poishow",
          poiInfo:"poiinfo",
          poiMap:"#poimap",
          marker:"",
-         distanceSelect: "#distanceSelect",
+         mapButton:"#mapButton",
+         infoButton:"#infoButton",
+         
       },
       control: {
+         nav : {
+            push: "onNavPush",
+            pop: "onNavPop"
+         },
          poiList: {
             itemtap: "onSearchTap"
          },
@@ -20,8 +27,39 @@ Ext.define("LaCarteTouch.controller.Main", {
             activate: "onMapActivate",
             //deactivate: "onMapDeactivate",
          },
+         mapButton: { tap: "onMapButtonTap"  },
+         infoButton: { tap: "onInfoButtonTap" }
       }
    }, // fin de config
+
+   // Gestion d'un push
+   onNavPush : function() {
+       this.getMapButton().show();
+        this.getInfoButton().hide();
+   }, // fin de la gestion du push
+
+   // Gestion du pop
+   onNavPop : function() {
+       this.getMapButton().hide();
+       this.getInfoButton().hide();
+   }, // fin de la gestion du pop
+   
+
+   // Gestion du bouton Map
+   onMapButtonTap: function() {
+        console.log('onMapButtonTap');
+        this.getPoiShow().setActiveItem(1);
+        this.getMapButton().hide();
+        this.getInfoButton().show();
+   },
+
+   // Gestion du bouton Info
+   onInfoButtonTap: function() {
+        console.log('onInfoButtonTap');
+        this.getPoiShow().setActiveItem(0);
+        this.getMapButton().show();
+        this.getInfoButton().hide();
+   },
 
    // lauch !
    launch: function() {
@@ -53,6 +91,12 @@ Ext.define("LaCarteTouch.controller.Main", {
                  success: function(position) {
                         var c = position.coords;
                         console.log(' Device : ' + c.latitude + ' ' + c.longitude);
+                        var store = Ext.getStore("Config");
+                        var cfg = store.getAt(0); 
+                        cfg.set('latitude', c.latitude);
+                        cfg.set('longitude', c.longitude);
+                        console.log('location update :' + cfg.get('latitude') + ' - ' +  cfg.get('longitude'))
+                        store.sync();
                  }
           });
 
@@ -63,9 +107,9 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Activation de la carte
    onMapActivate: function() {
-        var cfg = this.getConfig();
-        console.log('onMapActivate :' + cfg.get('latitude') + ' - ' +  cfg.set('longitude'))
-        this.getPoiMap().setMapCenter( { latitude: cfg.get('latitude'), longitude: cfg.get('longitude') } );
+        //var cfg = this.getConfig();
+        //console.log('onMapActivate :' + cfg.get('latitude') + ' - ' +  cfg.set('longitude'))
+        //this.getPoiMap().setMapCenter( { latitude: cfg.get('latitude'), longitude: cfg.get('longitude') } );
    }, // Activation de la carte
 
    // Tap sur la liste d'une recherche

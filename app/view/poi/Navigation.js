@@ -9,19 +9,18 @@ Ext.define("LaCarteTouch.view.poi.Navigation", {
 
    config: {
       autoDestroy: false,
-      navigationBar: { hidden: false  },
-      //navigationBar: {
-          //items: [
-          //   {
-          //       xtype:'button', id:'refreshButton', text:'', align:'right', iconCls:'refresh', iconMask:'true',
-          //   },
-          //   {                 
-          //       xtype:'button', id:'favoriButton', text:'', align:'right', iconCls:'favorites', iconMask:'true', hidden:true, ui:'plain',
-          //   }                 
-         //] // navigationBar.items        
-      //}, // navigationBar
+      navigationBar: {
+          items: [
+             {
+                 xtype:'button', id:'refreshButton', text:'', align:'right', iconCls:'refresh', iconMask:'true',
+             },
+             {                 
+                 xtype:'button', id:'favoriButton', text:'', align:'right', iconCls:'favorites', iconMask:'true', hidden:true, ui:'plain',
+             }                 
+         ] // navigationBar.items        
+      }, // navigationBar
       items: [
-         { xtype: "poilist", grouped: true }
+         { xtype: "poilist" }
       ] // items
   } // config
       

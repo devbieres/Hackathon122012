@@ -32,11 +32,10 @@ img {
 }
 
 .poi-info {
-   font-size:0.8em;
-   background-color: white;
+   font-size:0.9em;
 }
 .poi-info h2 {
-   font-size:1.3em;
+   font-size:1.2em;
    width:100%;
    text-align:center;
    font-weight: bold;
@@ -44,12 +43,14 @@ img {
 }
 
 .poi-info .contact li {
-   margin-top: 5px;
-   min-height: 30px;
+   margin-top: 15px;
+   min-height: 50px;
 }
 
 .poi-info .adresse, .poi-info .contact {
    margin-left: 15px;
+   margin-top: 15px;
+   min-height: 50px;
 }
 
 .poi-info a, .poi-info a:hover, .poi-info a:visited {

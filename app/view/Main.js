@@ -1,6 +1,7 @@
 Ext.define('LaCarteTouch.view.Main', {
     extend: 'Ext.TabPanel',
     xtype: 'main',
+    id:'main',
 
     requires: [
         "LaCarteTouch.view.form.Search", "LaCarteTouch.view.list.SearchResult"
@@ -14,7 +15,7 @@ Ext.define('LaCarteTouch.view.Main', {
               xtype:'searchform',
            },
            {
-             xtype:'searchresult'
+             xtype:'searchresult', id:'searchresult'
            }
         ],
     }

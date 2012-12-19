@@ -6,7 +6,10 @@ Ext.define("LaCarteTouch.store.POIS", {
                 type:'memory', 
            }, // proxy         
            sorters: [ { property: 'distance', direction: 'ASC' } ],
-           grouper: function(record) { return record.get('type'); }  
+           grouper: { 
+               groupFn : function(record) { return record.get('distanceClass') + "km"; },
+               sortProperty : 'distance'
+           }
      }, // config              
 }); // fin
 

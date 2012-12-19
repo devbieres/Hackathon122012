@@ -3,10 +3,11 @@ Ext.define("LaCarteTouch.view.poi.List", {
    xtype: "poilist",
 
    config: {                   
-     title: "La carte",           
+     title: "La Liste",           
      store: "POIS",           
      loadingText: "Chargement ...",  
      emptyText: "<pre><div class='list-empty' > Désolé ... rien pour le moment </div></pre>",
+     grouped: true,
      itemTpl: [                
                 "<div id='{id}' class='poi-item' >",
                   " <img src='./resources/images/{type}/{distanceClass}.png' /> ",

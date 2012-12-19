@@ -9,12 +9,14 @@ Ext.define("LaCarteTouch.controller.Search", {
    config: {
        refs: {
          //typeSelect: "#typeSelect",
+         main:            "#main",
          formThemeSelect: "#formThemeSelect",
          formTypeSelect:  "#formTypeSelect",
          formDistance:    "#formDistance",
          formCombien:     "#formCombien",
          formQuery:       "#formQuery",
-         btnSearch:       "#btnSearch"
+         btnSearch:       "#btnSearch",
+         list:            "poilist"
        }, // fin des refs
        control: {
           formThemeSelect: {
@@ -77,6 +79,11 @@ Ext.define("LaCarteTouch.controller.Search", {
       // -3- Récupération du store
       var store =  scope.getPOIStore();
       store.removeAll();
+      // --> Mise en attente
+      this.getMain().setMasked({
+           xtype:'loadmask',
+           message:'Chargement ...'
+      });
 
       // -4- Calcul de l'url
       var url = "http://hack2012.logisima.com/hack2012/_search";
@@ -96,7 +103,7 @@ Ext.define("LaCarteTouch.controller.Search", {
               // -2- Lecture
               var temp = Ext.JSON.decode(result.responseText);
               var hits = temp.hits.hits;
- 
+
               // -3- Boucle
              for(var i in hits) {
                  var record = hits[i]._source;
@@ -130,9 +137,17 @@ Ext.define("LaCarteTouch.controller.Search", {
                            item.set('distanceClass', distClass);
   
                            store.add(item);
-                           console.log(item.get('nom'));
                  } // fin if item
              } // fin du each sur les hits
+ 
+             // Fin du chargement = gestion de la vue
+             //Ext.getCmp('poishow').setActiveItem(0);
+             Ext.getCmp('searchresult').setActiveItem(0);
+             Ext.getCmp('mapButton').hide();
+             Ext.getCmp('infoButton').hide();
+             var main = Ext.getCmp('main');
+             main.setMasked(false);
+             main.setActiveItem(1);
          } // success
       }); // Fin de request
       //*/
