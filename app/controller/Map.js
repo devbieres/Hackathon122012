@@ -7,7 +7,8 @@ Ext.define("LaCarteTouch.controller.Map", {
         mapPanel: 'mappanel',  
         situationMap : '#situationMap',
         btn: "#btnSearch",
-        marker: null
+        marker: null,
+        geoloc : 0
       },
       control: {
         situationMap: 
@@ -27,6 +28,7 @@ Ext.define("LaCarteTouch.controller.Map", {
                  success: function(position) {
                         var c = position.coords;
                         console.log(' Device : ' + c.latitude + ' ' + c.longitude);
+                        this.geoloc = 1;
                         this.recordPosition(c.latitude, c.longitude);
                  },
                  scope:this
@@ -41,6 +43,7 @@ Ext.define("LaCarteTouch.controller.Map", {
 
          cfg.set('latitude', lat);
          cfg.set('longitude', lng);
+        this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
 
          console.log('location update :' + cfg.get('latitude') + ' - ' +  cfg.get('longitude'))
          store.sync();
@@ -51,48 +54,51 @@ Ext.define("LaCarteTouch.controller.Map", {
 
    onMapActivate: function() {
         console.log('onMapActivate');
-        var me = this;
+        if(this.geoloc == 1) { 
 
-        var cfg = this.getConfig();
-        var lat = cfg.get('latitude');
-        var lng = cfg.get('longitude');
-        // Centrage de la carte
-         
-        console.log('OnMapActivate :' + lat + ' ' + lng);
-        this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
-        // Creation d'un point
-        var latlngM = new google.maps.LatLng(lat, lng);
-        // Creation du marker
-        var map = this.getSituationMap().getMap();
-        if(typeof this.marker != 'undefined') { this.marker.setMap(null); this.marker = null; }
-        else {
-             google.maps.event.addListener(map, 'click', function(e) {
-                  me.recordPosition(e.latLng.lat(), e.latLng.lng());
-                  // Lever un event pour lancer la recherche ...
-                  me.getBtn().fireEvent('tap');
-             });
-        }
-        // 
-        this.marker = new google.maps.Marker({
-             icon: './resources/images/position.png',
-             position: latlngM,
-             map: map,
-             title: 'Vous !',
-             draggable: true,
-        });
+            var me = this;
 
-        // Gestion de l'event
-        var m = this.marker;
-        google.maps.event.addListener(m, 'dragend', 
-            function() {
+            var cfg = this.getConfig();
+            var lat = cfg.get('latitude');
+            var lng = cfg.get('longitude');
+            
+            // Centrage de la carte
+            console.log('OnMapActivate :' + lat + ' ' + lng);
+            this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
+            // Creation d'un point
+            var latlngM = new google.maps.LatLng(lat, lng);
+            // Creation du marker
+            var map = this.getSituationMap().getMap();
+            if(typeof this.marker != 'undefined') { this.marker.setMap(null); this.marker = null; }
+            else {
+                google.maps.event.addListener(map, 'click', function(e) {
+                    me.recordPosition(e.latLng.lat(), e.latLng.lng());
+                    // Lever un event pour lancer la recherche ...
+                    me.getBtn().fireEvent('tap');
+                });
+            }
+            // 
+            this.marker = new google.maps.Marker({
+              icon: './resources/images/position.png',
+              position: latlngM,
+              map: map,
+              title: 'Vous !',
+              draggable: true,
+            });
+
+            // Gestion de l'event
+            var m = this.marker;
+            google.maps.event.addListener(m, 'dragend', 
+                function() {
                    console.log('Drag End');
                    me.recordPosition(
                           m.getPosition().lat(), 
                           m.getPosition().lng()
                    );
                    me.getBtn().fireEvent('tap');
-            }
-        );
+                }
+           );
+        } // fin == 1
         
    }, // onMapActivate
 
