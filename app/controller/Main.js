@@ -16,6 +16,9 @@ Ext.define("LaCarteTouch.controller.Main", {
          
       },
       control: {
+         main: {
+            activeitemchange: "onMainActiveItemChange", 
+         },
          nav : {
             push: "onNavPush",
             pop: "onNavPop"
@@ -28,9 +31,21 @@ Ext.define("LaCarteTouch.controller.Main", {
       }
    }, // fin de config
 
+   // Gestion d'un changement d'actif item 
+   onMainActiveItemChange: function(scope, value, oldValue, eOpts) {
+        console.log(value.xtype);
+        if(value.xtype=='searchresult') {
+           console.log('back on search result !');
+           this.getNav().reset();
+           //this.getNav().setActiveItem(0);
+           //if(this.poishow != null) {
+           //    this.getPoiShow().setActiveItem(0);
+           //}
+        }
+   }, // fin onMainActiveItemChange
+
    // Gestion d'un push
    onNavPush : function(view, item) {
-       console.log('PUSH : ' +  item.getActiveItem().xtype);
        if(item.getActiveItem().xtype == 'map') {
           this.getMapButton().show();
           this.getInfoButton().hide();
@@ -42,7 +57,6 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion du pop
    onNavPop : function(view, item) {
-       console.log('POP : ' + item.xtype);
        this.getMapButton().hide();
        this.getInfoButton().hide();
    }, // fin de la gestion du pop
@@ -50,7 +64,6 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion du bouton Map
    onMapButtonTap: function() {
-        console.log('onMapButtonTap');
         this.getPoiShow().setActiveItem(1);
         this.getMapButton().hide();
         this.getInfoButton().show();
@@ -58,7 +71,6 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion du bouton Info
    onInfoButtonTap: function() {
-        console.log('onInfoButtonTap');
         this.getPoiShow().setActiveItem(0);
         this.getMapButton().show();
         this.getInfoButton().hide();

@@ -4,6 +4,7 @@ Ext.define("LaCarteTouch.controller.Map", {
    // config
    config: {
       refs: { 
+        main: "main",
         mapPanel: 'mappanel',  
         situationMap : '#situationMap',
         btn: "#btnSearch",
@@ -11,12 +12,28 @@ Ext.define("LaCarteTouch.controller.Map", {
         geoloc : 0
       },
       control: {
+         main: {
+            activeitemchange: "onMainActiveItemChange",
+         },
         situationMap: 
           {
              activate: "onMapActivate"
           } // mapPanel
       } // control
    },
+
+   // Gestion d'un changement d'actif item 
+   onMainActiveItemChange: function(scope, value, oldValue, eOpts) {
+        if(value.xtype=='mappanel') {
+            // -1- Recherche de la config
+            var cfg = this.getConfig();
+            var lat = cfg.get('latitude');
+            var lng = cfg.get('longitude');
+            // -2- 
+            this.recordPosition(lat, lng);
+       }
+   },
+   // fin d'un changement d'actif item
 
    // lauch !
    launch: function() {
@@ -27,7 +44,6 @@ Ext.define("LaCarteTouch.controller.Map", {
           Ext.device.Geolocation.getCurrentPosition({
                  success: function(position) {
                         var c = position.coords;
-                        console.log(' Device : ' + c.latitude + ' ' + c.longitude);
                         this.geoloc = 1;
                         this.recordPosition(c.latitude, c.longitude);
                  },
@@ -45,7 +61,6 @@ Ext.define("LaCarteTouch.controller.Map", {
          cfg.set('longitude', lng);
         this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
 
-         console.log('location update :' + cfg.get('latitude') + ' - ' +  cfg.get('longitude'))
          store.sync();
 
          this.onMapActivate();
@@ -53,7 +68,6 @@ Ext.define("LaCarteTouch.controller.Map", {
    }, // recordPosition
 
    onMapActivate: function() {
-        console.log('onMapActivate');
         if(this.geoloc == 1) { 
 
             var me = this;
@@ -63,7 +77,6 @@ Ext.define("LaCarteTouch.controller.Map", {
             var lng = cfg.get('longitude');
             
             // Centrage de la carte
-            console.log('OnMapActivate :' + lat + ' ' + lng);
             this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
             // Creation d'un point
             var latlngM = new google.maps.LatLng(lat, lng);
@@ -90,7 +103,6 @@ Ext.define("LaCarteTouch.controller.Map", {
             var m = this.marker;
             google.maps.event.addListener(m, 'dragend', 
                 function() {
-                   console.log('Drag End');
                    me.recordPosition(
                           m.getPosition().lat(), 
                           m.getPosition().lng()

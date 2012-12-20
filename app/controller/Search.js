@@ -30,7 +30,6 @@ Ext.define("LaCarteTouch.controller.Search", {
 
    // onThemeChange
    onFormThemeSelect: function(scope, newValue, oldValue, eOpts) {
-         console.log('OnThemeChange');
          // Application d'un filtre sur le store des types
          var store = this.getTypeStore();
          store.clearFilter(true);
@@ -38,7 +37,6 @@ Ext.define("LaCarteTouch.controller.Search", {
    },
 
    onBtnSearchTap: function() {
-         console.log('OnBtnSeachTap');
          this.doSearch(this);
    },
 
@@ -47,31 +45,23 @@ Ext.define("LaCarteTouch.controller.Search", {
 
    // Effectue la recherche
    doSearch: function(scope) {
-      console.log('DoSearch');
 
       // -1- Récupération des différentes variables de recherche
       // --> IHM
       var theme = this.getFormThemeSelect().getValue();
-      console.log("Theme : " + theme);
       var type = this.getFormTypeSelect().getValue();
-      console.log("Type : " + type);
       var distance = this.getFormDistance().getValue();
-      console.log("distance : " + distance);
       var combien = this.getFormCombien().getValue();
-      console.log("Combien : " + combien);
       var motscles = this.getFormQuery().getValue();
       if(motscles.length <= 0) { motscles = "*"; }
-      console.log("Mots clés : " + motscles);
 
       // --> Config
       var config = this.getConfig();
       var lat = config.get('latitude');
       var lng = config.get('longitude');
-      console.log('doSearch (1) :' + config.get('latitude') + ' - ' +  config.get('longitude'))
 
       // -2- Génération de la requête
       var param = '{ "from" : 0, "size" : ' + combien +', "query" :  { "query_string" : {"query" : "' + motscles + '" } }, "filter" : {  "and" : [ {  "geo_distance" : { "distance" : "' + distance + '", "pin" : { "lat":' + lat +', "lon":' + lng +' } } }, { "term" : {  "theme": "' + theme + '" } }, { "term" : {  "type": "' + type + '" } } ]  }, "sort" : [ { "_geo_distance" : { "pin" : { "lat": ' + lat + ', "lon" : ' + lng + '  }, "order" : "asc", "unit" : "km" } } ] }';
-      console.log(param);
 
       // -3- Récupération du store
       var store =  scope.getPOIStore();
@@ -95,7 +85,6 @@ Ext.define("LaCarteTouch.controller.Search", {
               var config = Ext.getStore('Config').getAt(0);
               var lat = config.get('latitude');
               var lng = config.get('longitude');
-              console.log('Ajax Search :' + config.get('latitude') + ' - ' +  config.get('longitude'))
 
               // -2- Lecture
               var temp = Ext.JSON.decode(result.responseText);
@@ -141,11 +130,7 @@ Ext.define("LaCarteTouch.controller.Search", {
                  } // fin if item
              } // fin du each sur les hits
  
-             // Fin du chargement = gestion de la vue
-             //Ext.getCmp('poishow').setActiveItem(0);
-             Ext.getCmp('searchresult').setActiveItem(0);
-             Ext.getCmp('mapButton').hide();
-             Ext.getCmp('infoButton').hide();
+             // Fin du chargement : gestion de la vue
              var main = Ext.getCmp('main');
              main.setMasked(false);
              main.setActiveItem(1);
