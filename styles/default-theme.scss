@@ -1,0 +1,117 @@
+$base-color: #04123F;
+$color:#ffA500;
+//$font-familly: Helvetica, sans-serif;
+
+$list-header-bg-color: #ccc;
+$list-header-color: #777;
+$list-pressed-color: #545454;
+$list-active-color: #545454;
+$tabs-dark-active-color: #FFA500;
+
+//$font-family: 'ubuntu', Helvetica, sans-serif;
+
+
+@import 'sencha-touch/default/all';
+
+// You may remove any of the following modules that you
+// do not use in order to create a smaller css file.
+@include sencha-panel;
+@include sencha-buttons;
+//@include sencha-sheet;
+//@include sencha-picker;
+@include sencha-tabs;
+@include sencha-toolbar;
+@include sencha-toolbar-forms;
+@include sencha-indexbar;
+@include sencha-list;
+@include sencha-layout;
+//@include sencha-carousel;
+@include sencha-form;
+//@include sencha-msgbox;
+
+@include pictos-iconmask('globe1');
+@include pictos-iconmask('globe2');
+@include pictos-iconmask('locate');
+@include pictos-iconmask('list');
+@include pictos-iconmask('info');
+
+//########################## 
+//Les différentes polices    
+//###########################
+
+@font-face {
+    font-family: 'PacificoRegular';
+    src: url('../fonts/pacifico/Pacifico-webfont.eot');
+    src: url('../fonts/pacifico/Pacifico-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pacifico/Pacifico-webfont.woff') format('woff'),
+         url('../fonts/pacifico/Pacifico-webfont.ttf') format('truetype'),
+         url('../fonts/pacifico/Pacifico-webfont.svg#PacificoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.x-title, .x-button-label {
+   font-family: 'PacificoRegular';
+   font-weight:initial;
+}
+.x-title {
+   font-size:1.5em;
+}
+
+
+// ###########################
+// Infos globales
+img {
+   vertical-align:middle;
+}
+// ###########################
+
+.poi-item {
+      font-size: 0.8em;
+      img { float:left; }
+      .info { 
+          margin-left: 50px; 
+          .distance { font-weight: normal; font-style: italic; } 
+          .title { font-weight: bold; }
+      }
+} 
+
+#distanceSelect { width: 100px; }
+#typeSelect { width: 150px; }
+
+.poi-info {
+   font-size: 0.9em;
+
+   h2 {
+       font-size:1.2em; width:100%;
+       text-align:center;
+       margin-bottom: 5px;
+       font-family: 'PacificoRegular';
+       font-weight:initial;
+   } 
+
+   h3 {
+     font-weight: bold;
+     width: 100%;
+     border-bottom: 1px black solid;
+   }
+
+   .contact {
+       margin-left: 15px; margin-top: 15px; min-height: 50px; 
+       li {
+          margin-top: 15px; min-height: 50px;
+       }
+   }
+
+   .adresse {  
+       margin-left: 15px; margin-top: 15px; min-height: 50px; 
+    }
+
+    a { color: black; }
+    a:hover { color: black; }
+    a:visited { color: black; }
+
+   .description { margin: 15px; padding-bottom: 15px; } 
+
+}

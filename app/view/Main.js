@@ -5,7 +5,7 @@ Ext.define('LaCarteTouch.view.Main', {
 
     requires: [
         "LaCarteTouch.view.form.Search", "LaCarteTouch.view.list.SearchResult",
-        "LaCarteTouch.view.map.Map",
+        "LaCarteTouch.view.map.Map"
     ], 
 
     config: {
@@ -19,8 +19,8 @@ Ext.define('LaCarteTouch.view.Main', {
              xtype:'searchresult', id:'searchresult'
            },
            {
-              xtype:'mappanel' 
-           },
+              xtype:'mappanel'
+           }
         ] // items
     } // config
 });

@@ -17,21 +17,6 @@ Ext.define("LaCarteTouch.view.form.Search", {
               items: [
                  { xtype:'selectfield', store:'Theme', displayField:'nom', valueField:'code', id:'formThemeSelect', label:'Thème' },
                  { xtype:'selectfield', store:'Type', displayField:'nom', valueField:'code', id:'formTypeSelect', label:'Type' },
-                 /*
-                 { xtype:'sliderfield', id:'formDistance', label:'Distance <br/>(1km)', value:1, minValue:1, maxValue:50, increment:1,
-                           listeners:{ 
-                               drag: function(slider, s1, thumb, e, eOpts) {
-                                    var panel = Ext.getCmp('sliderPanel');
-                                    panel.showBy(thumb);
-                                    panel.element.setHtml(slider.getValue());
-                                }, // fin de drag
-                                dragend: function(slider, s1, thumb, value, e, eOpts) {
-                                    var panel = Ext.getCmp('sliderPanel');
-                                    panel.hide();
-                                    slider.setLabel('Distance <br/>('+ value +'km)');
-                                }
-                            }
-                 },*/
                  {
                      xtype:'selectfield', label:'Distance',
                      id:'formDistance',

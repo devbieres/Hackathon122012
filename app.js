@@ -1,7 +1,7 @@
 //<debug>
 Ext.Loader.setPath({
     'Ext': 'touch/src',
-    'LaCarteTouch': 'app'
+    'LaCarteTouch': 'app',
 });
 //</debug>
 
@@ -10,7 +10,7 @@ Ext.application({
 
     requires: [
         'Ext.MessageBox', 'Ext.field.Search', 'Ext.data.proxy.LocalStorage','Ext.tab.Panel', 'Ext.device.Geolocation',
-        'LaCarteTouch.util.UtilMap',
+        'LaCarteTouch.util.UtilMap', 'LaCarteTouch.util.UtilLeaflet',
         'LaCarteTouch.view.Main',
     ],
 

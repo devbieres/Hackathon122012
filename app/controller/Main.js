@@ -33,14 +33,8 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion d'un changement d'actif item 
    onMainActiveItemChange: function(scope, value, oldValue, eOpts) {
-        console.log(value.xtype);
         if(value.xtype=='searchresult') {
-           console.log('back on search result !');
            this.getNav().reset();
-           //this.getNav().setActiveItem(0);
-           //if(this.poishow != null) {
-           //    this.getPoiShow().setActiveItem(0);
-           //}
         }
    }, // fin onMainActiveItemChange
 

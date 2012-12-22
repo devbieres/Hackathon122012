@@ -3,12 +3,13 @@ Ext.define("LaCarteTouch.view.map.Map", {
       xtype: 'mappanel',
       
       requires: [
-          'Ext.Map'
+          'Ext.Map',
       ],
 
       config: {
-          iconCls: 'download', title:'Départ',
+          iconCls: 'locate', title:'Départ',
           layout: 'fit',
+          fullsreen: 'true',
           items: [
             {
               xtype:'toolbar', title:"Z'êtes là ?",
@@ -18,7 +19,7 @@ Ext.define("LaCarteTouch.view.map.Map", {
               xtype:'label', html:'<span style="font-size:smaller" > Un click ou un déplacer pour changer. </span>', docked:'top'
             },
             {
-               xtype:'map', id:'situationMap', mapOptions:{ zoom: 13 }
+               xtype:'mapleaf', id:'situationMap'
             }
           ] // items
       } // fin de config

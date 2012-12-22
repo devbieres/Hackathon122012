@@ -6,7 +6,7 @@ Ext.define("LaCarteTouch.controller.Map", {
       refs: { 
         main: "main",
         mapPanel: 'mappanel',  
-        situationMap : '#situationMap',
+        map : '#situationMap',
         btn: "#btnSearch",
         marker: null,
         geoloc : 0
@@ -15,22 +15,32 @@ Ext.define("LaCarteTouch.controller.Map", {
          main: {
             activeitemchange: "onMainActiveItemChange",
          },
-        situationMap: 
+         map: { rendered: "onMapRender", mapClick:'onMapClick' },
+         situationMap: 
           {
-             activate: "onMapActivate"
+             activate: "onMapActivate",
           } // mapPanel
       } // control
    },
 
+   // onMapClick
+   // Gestion d'un click sur la carte
+   onMapClick: function(lat, lng) {
+       this.recordPosition(lat, lng, 0);
+       this.getBtn().fireEvent('tap');
+   },
+
+   // onMapRender
+   // La carte ne peyt être manipulé que si elle est a été "rendu"
+   onMapRender: function() {
+       this.onMapActivate(); 
+   }, // rendu de la carte
+
+
    // Gestion d'un changement d'actif item 
    onMainActiveItemChange: function(scope, value, oldValue, eOpts) {
-        if(value.xtype=='mappanel') {
-            // -1- Recherche de la config
-            var cfg = this.getConfig();
-            var lat = cfg.get('latitude');
-            var lng = cfg.get('longitude');
-            // -2- 
-            this.recordPosition(lat, lng);
+        if((value.xtype=='mappanel') || (value.xtype=='mappanelL')) {
+            this.onMapActivate(); 
        }
    },
    // fin d'un changement d'actif item
@@ -45,7 +55,7 @@ Ext.define("LaCarteTouch.controller.Map", {
                  success: function(position) {
                         var c = position.coords;
                         this.geoloc = 1;
-                        this.recordPosition(c.latitude, c.longitude);
+                        this.recordPosition(c.latitude, c.longitude, 1);
                  },
                  scope:this
           }); // fin du passage par le device
@@ -53,17 +63,18 @@ Ext.define("LaCarteTouch.controller.Map", {
    }, // launch
 
    // Enregistremnt de la position
-   recordPosition : function(lat, lng) {
-         var store = Ext.getStore("Config");
-         var cfg = store.getAt(0); 
+   recordPosition : function(lat, lng, refresh) {
+        var store = Ext.getStore("Config");
+        var cfg = store.getAt(0); 
 
-         cfg.set('latitude', lat);
-         cfg.set('longitude', lng);
-        this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
+        cfg.set('latitude', lat);
+        cfg.set('longitude', lng);
 
-         store.sync();
+        store.sync();
 
-         this.onMapActivate();
+        if(refresh == 1) {
+           this.onMapActivate();
+        }
 
    }, // recordPosition
 
@@ -75,41 +86,23 @@ Ext.define("LaCarteTouch.controller.Map", {
             var cfg = this.getConfig();
             var lat = cfg.get('latitude');
             var lng = cfg.get('longitude');
-            
-            // Centrage de la carte
-            this.getSituationMap().setMapCenter( { latitude: lat, longitude: lng } );
-            // Creation d'un point
-            var latlngM = new google.maps.LatLng(lat, lng);
-            // Creation du marker
-            var map = this.getSituationMap().getMap();
-            if(typeof this.marker != 'undefined') { this.marker.setMap(null); this.marker = null; }
-            else {
-                google.maps.event.addListener(map, 'click', function(e) {
-                    me.recordPosition(e.latLng.lat(), e.latLng.lng());
-                    // Lever un event pour lancer la recherche ...
-                    me.getBtn().fireEvent('tap');
-                });
-            }
-            // 
-            this.marker = new google.maps.Marker({
-              icon: './resources/images/position.png',
-              position: latlngM,
-              map: map,
-              title: 'Vous !',
-              draggable: true,
-            });
 
-            // Gestion de l'event
-            var m = this.marker;
-            google.maps.event.addListener(m, 'dragend', 
-                function() {
-                   me.recordPosition(
-                          m.getPosition().lat(), 
-                          m.getPosition().lng()
-                   );
-                   me.getBtn().fireEvent('tap');
-                }
-           );
+            // #############################
+            // Carte Open Street Map
+            // #############################
+            // Centrage de la carte
+            if(this.getMap().getIsRendered() == 1) {
+               this.getMap().setMapCenter(lat, lng);
+               if(typeof this.marker != 'undefined') { this.getMap().removeMarker(this.marker); this.marker = null; }
+               this.marker = this.getMap().addMarker(lat, lng, './resources/images/position.png');
+               if(this.marker) {
+                    this.marker.addEventListener('dragend', function(e) {
+                        var m = e.target.getLatLng();
+                       this.onMapClick(m.lat, m.lng)
+                    }, this);
+               }
+            }
+
         } // fin == 1
         
    }, // onMapActivate

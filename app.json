@@ -67,6 +67,10 @@
             "update": "delta"
         },
         {
+             "path": "resources/css/default-theme.css",
+             "update": "delta", 
+        },
+        {
              "path":"resources/css/lacarte.css",
              "update": "delta"
         }

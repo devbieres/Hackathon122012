@@ -10,15 +10,15 @@ Ext.define("LaCarteTouch.view.list.SearchResult", {
 
    config: {
       title: 'Liste',
-      iconCls: 'bookmarks',
+      iconCls: 'list',
       autoDestroy: false,
       navigationBar: {
           items: [
              {
-                 xtype:'button', id:'mapButton', text:'', align:'right', iconCls:'arrow_right', iconMask:'true', hidden:true, ui:'confirm',
+                 xtype:'button', id:'mapButton', text:'', align:'right', iconCls:'info', iconMask:'true', hidden:true, ui:'confirm',
              },
              {                 
-                 xtype:'button', id:'infoButton', text:'', align:'right', iconCls:'arrow_left', iconMask:'true', hidden:true, ui:'confirm',
+                 xtype:'button', id:'infoButton', text:'', align:'right', iconCls:'globe2', iconMask:'true', hidden:true, ui:'confirm',
              }                 
          ] // navigationBar.items        
       }, // navigationBar
