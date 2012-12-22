@@ -13,7 +13,7 @@ Ext.define("LaCarteTouch.controller.Main", {
          marker:"",
          mapButton:"#mapButton",
          infoButton:"#infoButton",
-         
+         record: null
       },
       control: {
          main: {
@@ -27,7 +27,10 @@ Ext.define("LaCarteTouch.controller.Main", {
             itemtap: "onSearchTap"
          },
          mapButton: { tap: "onMapButtonTap"  },
-         infoButton: { tap: "onInfoButtonTap" }
+         infoButton: { tap: "onInfoButtonTap" },
+         poiMap: {
+             rendered: "onMapRender"
+         }
       }
    }, // fin de config
 
@@ -74,6 +77,9 @@ Ext.define("LaCarteTouch.controller.Main", {
    // Tap sur la liste d'une recherche
    onSearchTap: function(list, index, node, record) {
 
+      //
+      this.record = record;
+
       // Poi Show ?
       if(! this.poiShow) { this.poiShow = Ext.create("LaCarteTouch.view.poi.Show");  }
  
@@ -82,23 +88,27 @@ Ext.define("LaCarteTouch.controller.Main", {
       this.getPoiInfo().setData(record.data);
 
       // Gestion de la carte
-      var map = this.getPoiMap().getMap(); //console.log(map);
-      this.getPoiMap().setMapCenter( { latitude: record.get('latitude'), longitude: record.get('longitude')  } );
-
-      // Creation d'un marker
-      var latlngM = new google.maps.LatLng(record.get('latitude'), record.get('longitude'));
-      var marker = new google.maps.Marker({
-             icon: './resources/images/' + record.get('type') + '/' + record.get('distanceClass')  + '.png',
-             position: latlngM,
-             map: map,
-             title: record.get('nom')
-        });
-      if(typeof this.marker != 'undefined') { this.marker.setMap(null); }
-      this.marker = marker;
+      if(this.getPoiMap().getIsRendered() == 1) {
+            this.gererLaCarte(record);
+      } // Fin de la gestion de la carte
 
       // Affichage de la liste
       this.getNav().push(this.getPoiShow());
       
    }, // onSearchTap
 
+   // Quand la carte est affichée
+   onMapRender: function() {
+      if(this.record) {
+           this.gererLaCarte(this.record);
+      }
+   },
+
+   // Centralise la mise à jour de la carte
+   gererLaCarte: function(record) {
+       this.getPoiMap().setMapCenter(record.get('latitude'), record.get('longitude'));
+       if(typeof this.marker != 'undefined') { this.getPoiMap().removeMarker(this.marker); this.marker = null; }
+       this.marker =  this.getPoiMap().addMarker(record.get('latitude'), record.get('longitude'), './resources/images/' + record.get('type') + '/default.png');
+   }, // fin de gérer la carte
+ 
 });

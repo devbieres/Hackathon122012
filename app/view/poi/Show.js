@@ -14,7 +14,7 @@ Ext.define("LaCarteTouch.view.poi.Show", {
       autoDestroy: true,
       items: [
                 {
-                    title:"Carte", xtype:"map", id:"poimap", mapOptions: { zoom: 15 }
+                    title:"Carte", xtype:"mapleaf", id:"poimap" 
                 },
                 {
                     title:"Infos", xtype:"poiinfo", id:"poiinfo" 

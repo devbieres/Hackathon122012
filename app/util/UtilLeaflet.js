@@ -1,21 +1,7 @@
 /* 
-A simple wrapper for Cloudmade Leaflet for use with Sencha Touch 2.
-
-Example usage: 
-
-    Ext.application({
-        name: 'Sencha',
-        launch: function () {
-            var map = Ext.create('Ext.Leaflet', {});
-            Ext.create('Ext.Panel', {
-                fullscreen: true,
-                layout: 'fit',
-                items: [map]
-            });
-        }
-    });
+  Le code suivant est une adaptation d'un exemple de code disponible ici :
+    https://github.com/fredleefarr/Ext.ux.Leaflet
 */
-
 Ext.define('LaCarteTouch.util.UtilLeaflet', {
     extend: 'Ext.Component',
     xtype:'mapleaf',
@@ -31,9 +17,6 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
         this.callParent(arguments);
         this.element.setVisibilityMode(Ext.Element.OFFSETS);
         this.on('painted', this.renderMap, this);
-
-        console.log('constructor');
-        console.log(this.getIsRendered());
     },
 
     doResize: function() {
@@ -44,7 +27,6 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
     },
 
     renderMap: function () {
-        console.log('render');
         if (this.map) {
             return true;
         }
@@ -58,10 +40,9 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
         });
 
         this.map.addLayer(cloudmade).setView(new L.LatLng(this.getLat(), this.getLng()), this.getZoom());
-        this.map.addEventListener('click', function(e) { console.log('MapClick'); this.fireEvent("mapClick", e.latlng.lat, e.latlng.lng); }, this);
+        this.map.addEventListener('click', function(e) { this.fireEvent("mapClick", e.latlng.lat, e.latlng.lng); }, this);
 
         this.setIsRendered(1);
-        console.log(this.getIsRendered());
         this.fireEvent("rendered");
     },
 
@@ -84,7 +65,7 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
         var marker = new L.marker(latlng, { icon: icon, draggable: true} );
         // -4-
         marker.addTo(this.map);
-        // -4-
+        // -5-
         return marker;
     },
    
