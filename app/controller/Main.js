@@ -43,6 +43,8 @@ Ext.define("LaCarteTouch.controller.Main", {
    onMainActiveItemChange: function(scope, value, oldValue, eOpts) {
         if(value.xtype=='searchresult') {
            this.getNav().reset();
+        } else if(value.xtype=='aboutlacarte') {
+           if(! this.getAboutStore().isLoaded()) { this.getAboutStore().load(); }
         }
    }, // fin onMainActiveItemChange
 

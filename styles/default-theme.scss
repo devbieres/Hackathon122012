@@ -114,6 +114,13 @@ img {
 }
 // ###########################
 
+.about-item {
+    font-size: 0.7em;
+    img { float:left; }
+    h2 { margin-left: 50px; font-weight:bold; font-size:1em }
+    .info { margin-left: 50px; }
+}
+
 .direction-item {
      font-size: 0.8em;
      img { float:left; }

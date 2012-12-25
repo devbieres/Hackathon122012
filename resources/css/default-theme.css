@@ -9646,64 +9646,83 @@ img {
 }
 
 /* line 117, ../../styles/default-theme.scss */
-.direction-item {
-  font-size: 0.8em;
+.about-item {
+  font-size: 0.7em;
 }
 /* line 119, ../../styles/default-theme.scss */
-.direction-item img {
+.about-item img {
   float: left;
 }
 /* line 120, ../../styles/default-theme.scss */
+.about-item h2 {
+  margin-left: 50px;
+  font-weight: bold;
+  font-size: 1em;
+}
+/* line 121, ../../styles/default-theme.scss */
+.about-item .info {
+  margin-left: 50px;
+}
+
+/* line 124, ../../styles/default-theme.scss */
+.direction-item {
+  font-size: 0.8em;
+}
+/* line 126, ../../styles/default-theme.scss */
+.direction-item img {
+  float: left;
+}
+/* line 127, ../../styles/default-theme.scss */
 .direction-item .info {
   margin-left: 50px;
   min-height: 35px;
 }
-/* line 124, ../../styles/default-theme.scss */
+/* line 131, ../../styles/default-theme.scss */
 .direction-item .detail {
   text-align: right;
 }
-/* line 126, ../../styles/default-theme.scss */
+/* line 133, ../../styles/default-theme.scss */
 .direction-item .detail .span {
   font-style: italic;
 }
 
-/* line 130, ../../styles/default-theme.scss */
+/* line 137, ../../styles/default-theme.scss */
 .poi-item {
   font-size: 0.8em;
 }
-/* line 132, ../../styles/default-theme.scss */
+/* line 139, ../../styles/default-theme.scss */
 .poi-item img {
   float: left;
 }
-/* line 133, ../../styles/default-theme.scss */
+/* line 140, ../../styles/default-theme.scss */
 .poi-item .info {
   margin-left: 50px;
 }
-/* line 135, ../../styles/default-theme.scss */
+/* line 142, ../../styles/default-theme.scss */
 .poi-item .info .distance {
   font-weight: normal;
   font-style: italic;
 }
-/* line 136, ../../styles/default-theme.scss */
+/* line 143, ../../styles/default-theme.scss */
 .poi-item .info .title {
   font-weight: bold;
 }
 
-/* line 140, ../../styles/default-theme.scss */
+/* line 147, ../../styles/default-theme.scss */
 #distanceSelect {
   width: 100px;
 }
 
-/* line 141, ../../styles/default-theme.scss */
+/* line 148, ../../styles/default-theme.scss */
 #typeSelect {
   width: 150px;
 }
 
-/* line 143, ../../styles/default-theme.scss */
+/* line 150, ../../styles/default-theme.scss */
 .poi-info {
   font-size: 0.9em;
 }
-/* line 146, ../../styles/default-theme.scss */
+/* line 153, ../../styles/default-theme.scss */
 .poi-info h2 {
   font-size: 1.2em;
   width: 100%;
@@ -9712,42 +9731,42 @@ img {
   font-family: 'PacificoRegular';
   font-weight: initial;
 }
-/* line 154, ../../styles/default-theme.scss */
+/* line 161, ../../styles/default-theme.scss */
 .poi-info h3 {
   font-weight: bold;
   width: 100%;
   border-bottom: 1px black solid;
 }
-/* line 160, ../../styles/default-theme.scss */
+/* line 167, ../../styles/default-theme.scss */
 .poi-info .contact {
   margin-left: 15px;
   margin-top: 15px;
   min-height: 50px;
 }
-/* line 162, ../../styles/default-theme.scss */
+/* line 169, ../../styles/default-theme.scss */
 .poi-info .contact li {
   margin-top: 15px;
   min-height: 50px;
 }
-/* line 167, ../../styles/default-theme.scss */
+/* line 174, ../../styles/default-theme.scss */
 .poi-info .adresse {
   margin-left: 15px;
   margin-top: 15px;
   min-height: 50px;
 }
-/* line 171, ../../styles/default-theme.scss */
+/* line 178, ../../styles/default-theme.scss */
 .poi-info a {
   color: black;
 }
-/* line 172, ../../styles/default-theme.scss */
+/* line 179, ../../styles/default-theme.scss */
 .poi-info a:hover {
   color: black;
 }
-/* line 173, ../../styles/default-theme.scss */
+/* line 180, ../../styles/default-theme.scss */
 .poi-info a:visited {
   color: black;
 }
-/* line 175, ../../styles/default-theme.scss */
+/* line 182, ../../styles/default-theme.scss */
 .poi-info .description {
   margin: 15px;
   padding-bottom: 15px;
