@@ -11,29 +11,16 @@ Ext.define("LaCarteTouch.controller.Direction", {
          list:            "poilist",
          nav:             "searchresult",
          poiDirection:    "#poidirection",
+         poiMap:          "#poimap",
          record:          null
        }, // fin des refs
        control: {
           btnCalculer:  {
               tap: 'onBtnCalculerTap'
          },
-         nav : {
-            push: "onNavPush",
-         }
        }
    }, // config
 
-   // Gestion d'un push
-   onNavPush : function(view, item) {
-      var record = this.getPoiDirection().getRecord();
-       // Filtre du store direction sur le poi sélectionné
-      var s = this.getDirectionStore();
-      s.clearFilter(true);
-      s.filter(function(d) { 
-                //return true;
-                return d.get('poiid') == record.get('id'); 
-           });
-   },
 
    // Gestion du bouton de recherche
    onBtnCalculerTap: function() {
@@ -41,6 +28,7 @@ Ext.define("LaCarteTouch.controller.Direction", {
       // Mise en attente
       var main = this.getMain();
       main.setMasked({ xtype:'loadmask', message:'Chargement' });
+      var poimap = this.getPoiMap();
       // Destination
       var record = this.getPoiDirection().getRecord();
       var dlat = record.get('latitude');
@@ -58,24 +46,50 @@ Ext.define("LaCarteTouch.controller.Direction", {
       Ext.data.JsonP.request({
           url: url,
           success: function(result) {
-              var l = result.route.legs[0].maneuvers;
-              for(var i in l) {
+              var l = result.route.legs[0];
+              if(typeof l != 'undefined') {
+                 // Creation d'une ligne d'avertissement
                  var now = new Date();
-                 var r = l[i];
                  var item = Ext.create("LaCarteTouch.model.Direction",
+                       {
+                            id: (now.getTime()).toString() + ( Math.floor(Math.random() * (100 - 0 + 1)) + 0).toString(),
+                            poiid : record.get('id'),
+                            index : 0, direction:10, distance:0,
+                            info  : "Les indications sont <b>informatives</b>. Respectez le <b>code de la route</b> et votre <b>bon sens</b>."
+                        });
+                 store.add(item);
+ 
+ 
+                 for(var i in l.maneuvers) {
+                    var r = l.maneuvers[i];
+                    now = new Date();
+                    var item = Ext.create("LaCarteTouch.model.Direction",
                          {
                             id: (now.getTime()).toString() + ( Math.floor(Math.random() * (100 - 0 + 1)) + 0).toString(),
                             poiid : record.get('id'),
-                            index : r.index,
+                            index : r.index + 1,
                             info  : r.narrative,
                             distance: r.distance,
                             direction: r.direction,
                             lat : r.startPoint.lat,
                             lng : r.startPoint.lng 
                          });
-                  console.log(item.get('info'));
-                  store.add(item);
-              } // fin du for
+                    store.add(item);
+                 } // fin du for
+              } else {
+                    var now = new Date();
+                    var item = Ext.create("LaCarteTouch.model.Direction", {
+                             id: (now.getTime()).toString() + ( Math.floor(Math.random() * (100 - 0 + 1)) + 0).toString(),
+                             poiid : record.get('id'),
+                             index : 1,
+                             info: 'Aucune route trouvée ...',
+                             distance :  0,
+                             direction: 0
+                            });
+                    store.add(item);
+
+              }
+              poimap.fireEvent("rendered");
               main.setMasked(false);
           }
       });

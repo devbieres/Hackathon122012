@@ -12,6 +12,8 @@ Ext.define("LaCarteTouch.controller.Main", {
          poiMap:"#poimap",
          poiDirection:"#poidirection",
          marker:"",
+         markerOrigin:"",
+         polyline:"",
          mapButton:"#mapButton",
          infoButton:"#infoButton",
          directionButton:"#directionButton",
@@ -70,6 +72,7 @@ Ext.define("LaCarteTouch.controller.Main", {
    onNavPop : function(view, item) {
        this.getMapButton().hide();
        this.getInfoButton().hide();
+       this.getDirectionButton().hide();
    }, // fin de la gestion du pop
    
 
@@ -102,8 +105,14 @@ Ext.define("LaCarteTouch.controller.Main", {
       // Affectation des données
       this.getPoiShow().setRecord(record);
       this.getPoiInfo().setData(record.data);
-      console.log('Push du record !');
       this.getPoiDirection().setRecord(record);
+
+      // Filtre du store de direction
+      var s = this.getDirectionStore();
+      s.clearFilter(true);
+      s.filter(function(d) { 
+                return d.get('poiid') == record.get('id'); 
+           });
 
       // Gestion de la carte
       if(this.getPoiMap().getIsRendered() == 1) {
@@ -123,11 +132,32 @@ Ext.define("LaCarteTouch.controller.Main", {
    },
 
    // Centralise la mise à jour de la carte
-   gererLaCarte: function(record) {
-       console.log(record.get('latitude') + ' ' + record.get('longitude'));
-       this.getPoiMap().setMapCenter(record.get('latitude'), record.get('longitude'));
-       if(typeof this.marker != 'undefined') { this.getPoiMap().removeMarker(this.marker); this.marker = null; }
-       this.marker =  this.getPoiMap().addMarker(record.get('latitude'), record.get('longitude'), './resources/images/' + record.get('type') + '/default.png');
+   gererLaCarte: function(r) {
+
+       var map = this.getPoiMap();
+
+      // Origine 
+      var cfg = this.getConfig();
+      var lat = cfg.get('latitude');
+      var lng = cfg.get('longitude');
+      if(typeof this.markerOrigin != 'undefined') { map.removeMarker(this.markerOrigin); this.markerOrigin = null; }
+      this.markerOrigin = map.addMarker(lat, lng, './resources/images/position.png');
+
+       // Destination
+       map.setMapCenter(r.get('latitude'), r.get('longitude'));
+       if(typeof this.marker != 'undefined') { map.removeMarker(this.marker); this.marker = null; }
+       this.marker =  map.addMarker(r.get('latitude'), r.get('longitude'), './resources/images/' + r.get('type') + '/default.png');
+
+       // Calcul d'un trace
+       if(typeof this.polyline != 'undefined') { map.removePolyline(this.polyline); this.polyline = null; }
+       var arr = new Array();
+       this.getDirectionStore().each(function (item, index, length) { 
+                if(typeof item.get('lat') != 'undefined') { arr.push(map.getLatLng(item.get('lat'), item.get('lng'))) }; 
+       });
+       if(arr.length > 0) {
+           this.polyline = map.drawPolyline(arr);
+       }
+
    }, // fin de gérer la carte
  
 });

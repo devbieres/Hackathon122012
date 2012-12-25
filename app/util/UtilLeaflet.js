@@ -36,10 +36,9 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
         });
         var cloudmade = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-            maxZoom: 18
         });
 
-        this.map.addLayer(cloudmade).setView(new L.LatLng(this.getLat(), this.getLng()), this.getZoom());
+        this.map.addLayer(cloudmade).setView(this.getLatLng(this.getLat(), this.getLng()), this.getZoom());
         this.map.addEventListener('click', function(e) { this.fireEvent("mapClick", e.latlng.lat, e.latlng.lng); }, this);
 
         this.setIsRendered(1);
@@ -51,16 +50,16 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
           this.setLat(lat);
           this.setLng(lng);
 
-          if(this.map) { this.map.setView(new L.LatLng(lat, lng), this.getZoom()); }
+          if(this.map) { this.map.setView(this.getLatLng(lat, lng), this.getZoom()); }
     },
 
     // Add Marker
     addMarker: function(lat, lng, iconUrl) {
         if(! this.map) { return null; }
         // -1-
-        var latlng = new L.LatLng(lat, lng);
+        var latlng =  this.getLatLng(lat, lng);
         // -2-
-        var icon = L.icon( { iconUrl: iconUrl } );
+        var icon = L.icon( { iconUrl: iconUrl, iconSize:[32,37], iconAnchor:[16,35] } );
         // -3-
         var marker = new L.marker(latlng, { icon: icon, draggable: true} );
         // -4-
@@ -76,6 +75,12 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
         this.map.removeLayer(marker);
     },
 
+    removePolyline: function(poly) {
+        if(! this.map) { return null; }
+        if(! poly) { return null; }
+        this.map.removeLayer(poly);
+    },
+
     onUpdate: function (map, e, options) {
         this.setHtml((options || {}).data);
     },
@@ -83,7 +88,19 @@ Ext.define('LaCarteTouch.util.UtilLeaflet', {
 
     onDestroy: function () {
         this.callParent();
+    },
+
+    // Retourne un objet coordonnée.
+    getLatLng: function(lat, lng) { return new L.LatLng(lat, lng); },
+  
+    // Dessine un trait
+    drawPolyline: function(parr) {
+        if(! this.map) { return null; }
+        var p = new L.polyline(parr, {color:'#04123F', opacity:1.0}).addTo(this.map);
+        //this.map.fitBounds(p.getBounds());
+        return p; 
     }
+    
 
 }, function () {
 
