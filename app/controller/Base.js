@@ -5,6 +5,7 @@ Ext.define("LaCarteTouch.controller.Base", {
    getPOIStore: function() { return Ext.getStore("POIS"); },
    getThemeStore: function() { return Ext.getStore("Theme"); },
    getTypeStore: function() { return Ext.getStore("Type"); },
+   getDirectionStore: function() { return Ext.getStore("Direction"); },
 
    // Recuperation de la config
    getConfig : function() {

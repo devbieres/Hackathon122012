@@ -16,7 +16,7 @@ Ext.define("LaCarteTouch.view.map.Map", {
               docked:'top'
             },
             {
-              xtype:'label', html:'<span style="font-size:smaller" > Un click ou un déplacer pour changer. </span>', docked:'top'
+              xtype:'label', html:'<span style="font-size:smaller" > Un clic pour vous déplacer. </span>', docked:'top'
             },
             {
                xtype:'mapleaf', id:'situationMap'

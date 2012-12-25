@@ -31,6 +31,7 @@ $tabs-dark-active-color: #FFA500;
 
 @include pictos-iconmask('globe1');
 @include pictos-iconmask('globe2');
+@include pictos-iconmask('compass1');
 @include pictos-iconmask('locate');
 @include pictos-iconmask('list');
 @include pictos-iconmask('info');
@@ -99,7 +100,7 @@ $tabs-dark-active-color: #FFA500;
 
 }
 
-#btnSearch {
+#btnSearch, #btnDirections {
    background-color: $base-color;
    color: $color;
    font-family: 'PacificoRegular';
@@ -112,6 +113,19 @@ img {
    vertical-align:middle;
 }
 // ###########################
+
+.direction-item {
+     font-size: 0.8em;
+     img { float:left; }
+     .info {
+         margin-left: 50px;
+         min-height:35px;
+     }
+     .detail {
+          text-align:right;
+          .span { font-style:italic; }
+      }
+}
 
 .poi-item {
       font-size: 0.8em;

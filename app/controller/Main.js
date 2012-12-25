@@ -10,9 +10,11 @@ Ext.define("LaCarteTouch.controller.Main", {
          poiShow:"poishow",
          poiInfo:"poiinfo",
          poiMap:"#poimap",
+         poiDirection:"#poidirection",
          marker:"",
          mapButton:"#mapButton",
          infoButton:"#infoButton",
+         directionButton:"#directionButton",
          record: null
       },
       control: {
@@ -28,6 +30,7 @@ Ext.define("LaCarteTouch.controller.Main", {
          },
          mapButton: { tap: "onMapButtonTap"  },
          infoButton: { tap: "onInfoButtonTap" },
+         directionButton: { tap: "onDirectionButtonTap" },
          poiMap: {
              rendered: "onMapRender"
          }
@@ -43,14 +46,25 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion d'un push
    onNavPush : function(view, item) {
-       if(item.getActiveItem().xtype == 'map') {
-          this.getMapButton().show();
-          this.getInfoButton().hide();
-       } else {
+       this.handleNavigationButton(item.getActiveItem().xtype);
+   }, // fin de la gestion du push
+
+   // Gestion des boutons
+   handleNavigationButton : function(panel) {
+       if(panel == 'mapleaf') {
           this.getMapButton().hide();
           this.getInfoButton().show();
+          this.getDirectionButton().show();
+       } else if(panel == 'poiinfo') {
+          this.getMapButton().show();
+          this.getInfoButton().hide();
+          this.getDirectionButton().show();
+       } else {
+          this.getMapButton().show();
+          this.getInfoButton().show();
+          this.getDirectionButton().hide();
        }
-   }, // fin de la gestion du push
+   },
 
    // Gestion du pop
    onNavPop : function(view, item) {
@@ -61,23 +75,25 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Gestion du bouton Map
    onMapButtonTap: function() {
-        this.getPoiShow().setActiveItem(1);
-        this.getMapButton().hide();
-        this.getInfoButton().show();
+        this.getPoiShow().setActiveItem(0);
+        this.handleNavigationButton('mapleaf');
    },
 
    // Gestion du bouton Info
    onInfoButtonTap: function() {
-        this.getPoiShow().setActiveItem(0);
-        this.getMapButton().show();
-        this.getInfoButton().hide();
+        this.getPoiShow().setActiveItem(1);
+        this.handleNavigationButton('poiinfo');
+   },
+
+   // Gestion du bouton Direction
+   onDirectionButtonTap: function() {
+        this.getPoiShow().setActiveItem(2);
+        this.handleNavigationButton('poidirection');
    },
 
 
    // Tap sur la liste d'une recherche
    onSearchTap: function(list, index, node, record) {
-
-      //
       this.record = record;
 
       // Poi Show ?
@@ -86,6 +102,8 @@ Ext.define("LaCarteTouch.controller.Main", {
       // Affectation des données
       this.getPoiShow().setRecord(record);
       this.getPoiInfo().setData(record.data);
+      console.log('Push du record !');
+      this.getPoiDirection().setRecord(record);
 
       // Gestion de la carte
       if(this.getPoiMap().getIsRendered() == 1) {
@@ -106,6 +124,7 @@ Ext.define("LaCarteTouch.controller.Main", {
 
    // Centralise la mise à jour de la carte
    gererLaCarte: function(record) {
+       console.log(record.get('latitude') + ' ' + record.get('longitude'));
        this.getPoiMap().setMapCenter(record.get('latitude'), record.get('longitude'));
        if(typeof this.marker != 'undefined') { this.getPoiMap().removeMarker(this.marker); this.marker = null; }
        this.marker =  this.getPoiMap().addMarker(record.get('latitude'), record.get('longitude'), './resources/images/' + record.get('type') + '/default.png');

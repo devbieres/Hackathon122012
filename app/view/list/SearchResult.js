@@ -15,10 +15,13 @@ Ext.define("LaCarteTouch.view.list.SearchResult", {
       navigationBar: {
           items: [
              {
-                 xtype:'button', id:'mapButton', text:'', align:'right', iconCls:'info', iconMask:'true', hidden:true, ui:'confirm',
+                 xtype:'button', id:'mapButton', text:'', align:'right', iconCls:'globe2', iconMask:'true', hidden:true, ui:'confirm',
              },
              {                 
-                 xtype:'button', id:'infoButton', text:'', align:'right', iconCls:'globe2', iconMask:'true', hidden:true, ui:'confirm',
+                 xtype:'button', id:'infoButton', text:'', align:'right', iconCls:'info', iconMask:'true', hidden:true, ui:'confirm',
+             },                 
+             {                 
+                 xtype:'button', id:'directionButton', text:'', align:'right', iconCls:'compass1', iconMask:'true', hidden:true, ui:'confirm',
              }                 
          ] // navigationBar.items        
       }, // navigationBar

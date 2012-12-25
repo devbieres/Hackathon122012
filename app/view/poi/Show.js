@@ -3,7 +3,7 @@ Ext.define("LaCarteTouch.view.poi.Show", {
    xtype: "poishow",
 
    requires: [
-        "LaCarteTouch.view.poi.Info",
+        "LaCarteTouch.view.poi.Info", "LaCarteTouch.view.poi.Directions",
         "Ext.Label", "Ext.Map",
    ],
 
@@ -18,6 +18,9 @@ Ext.define("LaCarteTouch.view.poi.Show", {
                 },
                 {
                     title:"Infos", xtype:"poiinfo", id:"poiinfo" 
+                }, 
+                {
+                    title:"Directions", xtype:"poidirection", id:"poidirection"
                 }
       ], // items 
    }, // fin de config
