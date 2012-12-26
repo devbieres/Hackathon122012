@@ -9,7 +9,7 @@ Ext.define("LaCarteTouch.view.form.Search", {
 
          items: [
             {
-              xtype:'titlebar', docked:'top', title:'Vous cherchez ?'
+              xtype:'titlebar', docked:'top', title:'Vous cherchez ?' //, ui:'lacarte'
             }, //titlebar
             {
               xtype:'formpanel',

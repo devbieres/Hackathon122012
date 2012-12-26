@@ -106,7 +106,7 @@
         "resources/icons",
         "resources/startup",
         "resources/fonts",
-        "types.json", "themes.json"
+        "types.json", "themes.json", "about.json"
     ],
 
     /**
