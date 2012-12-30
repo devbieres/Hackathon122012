@@ -8,6 +8,7 @@ Ext.define("LaCarteTouch.controller.Map", {
         mapPanel: 'mappanel',  
         map : '#situationMap',
         btn: "#btnSearch",
+        btnMap: "#btnSearchMap",
         marker: null,
         geoloc : 0
       },
@@ -19,15 +20,23 @@ Ext.define("LaCarteTouch.controller.Map", {
          situationMap: 
           {
              activate: "onMapActivate",
-          } // mapPanel
+          }, // mapPanel
+         btnMap: 
+            { 
+              tap: "onSearch" 
+            } 
       } // control
+   },
+
+   // Lance la recherche
+   onSearch: function() {
+       this.getBtn().fireEvent('tap');
    },
 
    // onMapClick
    // Gestion d'un click sur la carte
    onMapClick: function(lat, lng) {
-       this.recordPosition(lat, lng, 0);
-       this.getBtn().fireEvent('tap');
+       this.recordPosition(lat, lng, 1);
    },
 
    // onMapRender

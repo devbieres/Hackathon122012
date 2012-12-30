@@ -20,7 +20,10 @@ Ext.define("LaCarteTouch.view.map.Map", {
             },
             {
                xtype:'mapleaf', id:'situationMap'
-            }
+            },
+            {
+              xtype:"button", id:"btnSearchMap", text:"Go", ui:'action', docked:'bottom'
+            },
           ] // items
       } // fin de config
 
